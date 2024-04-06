@@ -13,10 +13,14 @@ public:
 			DrawRectangle(i * 50 + 2.5, y + 2.5, rec_wid - 5, rec_hei - 5, BLUE);
 		}
 	}
+
 	void yieghf()
 	{
 		std::cout << "Pizdec";
+		std::cout << "            ";
+		std::cout << "qwertyu";
 	}
+
 };
 
 int main()
