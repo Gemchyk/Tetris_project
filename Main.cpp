@@ -17,8 +17,6 @@ public:
 	void yieghf()
 	{
 		std::cout << "Pizdec";
-		std::cout << "            ";
-		std::cout << "qwertyu";
 	}
 
 };
