@@ -13,9 +13,10 @@ public:
 			DrawRectangle(i * 50 + 2.5, y + 2.5, rec_wid - 5, rec_hei - 5, BLUE);
 		}
 	}
-
-	
-
+	void ran()
+	{
+		std::cout << "Pobeda?"
+	}
 };
 
 int main()
@@ -55,8 +56,6 @@ int main()
 
 		EndDrawing();
 	}
-	
-
 }
 
 
