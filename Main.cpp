@@ -13,9 +13,31 @@ public:
 			DrawRectangle(i * 50 + 2.5, y + 2.5, rec_wid - 5, rec_hei - 5, BLUE);
 		}
 	}
-	void ran()
+	void cube(int y)
 	{
-		std::cout << "Pobeda?";
+		for (int i = 0; i < 2; i++)
+		{
+			for (int el = 0; el < 2; el++)
+			{
+				DrawRectangle(el * 50 + 2.5, i * 50 + y + 2.5, rec_wid - 5, rec_hei - 5, YELLOW);
+				DrawRectangle(el * 50 + 2.5, i * 50 + y + 2.5, rec_wid - 5, rec_hei - 5, YELLOW);
+			}
+
+		}
+	}
+	void Tfigure(int y)
+	{
+		for (int el = 0; el < 2; el++)
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				DrawRectangle(i * 50 + 2.5, y + 2.5, rec_wid - 5, rec_hei - 5, BLUE);
+				if (el == 1)
+				{
+					DrawRectangle(el * 50 + 2.5,y + 2.5 - el*50, rec_wid - 5, rec_hei - 5, BLUE);
+				}
+			}
+		}
 	}
 };
 
@@ -51,7 +73,7 @@ int main()
 			start = GetTime();
 			d_y += 50;
 		}
-		figura.palka(d_y);
+		figura.Tfigure(d_y);
 
 
 		EndDrawing();
