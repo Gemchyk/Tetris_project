@@ -55,3 +55,9 @@ int main()
 void  randF() {
 	std::cout << "iweuihriujehwriojqijdeooqkpwddlkp";
 }
+
+int notMain() {
+	for (int i = 0; i < 10; i++) {
+		std::cout << "hhello world";
+	}
+}
