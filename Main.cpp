@@ -15,7 +15,7 @@ public:
 	}
 	void ran()
 	{
-		std::cout << "Pobeda?"
+		std::cout << "Pobeda?";
 	}
 };
 
