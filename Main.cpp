@@ -13,7 +13,10 @@ public:
 			DrawRectangle(i * 50 + 2.5, y + 2.5, rec_wid - 5, rec_hei - 5, BLUE);
 		}
 	}
-	
+	void yieghf()
+	{
+		std::cout << "Pizdec";
+	}
 };
 
 int main()
@@ -22,7 +25,7 @@ int main()
 	InitWindow(600, 1000, "Game");
 
 
-	figure a;
+	figure figura;
 	double start = GetTime();
 	int d_y = 0;
 
@@ -30,6 +33,8 @@ int main()
 	while (!WindowShouldClose())
 	{
 		BeginDrawing();
+
+		/*----------------------POLE----------------------*/
 		ClearBackground(BLACK);
 		for (float i = 0; i < 20; i++)
 		{
@@ -39,12 +44,14 @@ int main()
 				DrawRectangle(el * rec_wid + 2.5, i * rec_hei + 2.5, rec_wid - 5, rec_hei - 5, BLACK);
 			}
 		}
+		/*----------------------POLE----------------------*/
+
 		if (GetTime() - start >= 0.5)
 		{
 			start = GetTime();
 			d_y += 50;
 		}
-		a.palka(d_y);
+		figura.palka(d_y);
 
 
 		EndDrawing();
