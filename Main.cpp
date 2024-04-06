@@ -6,35 +6,35 @@ const int rec_hei = 50;
 class figure
 {
 public:
-	void palka(int y)
+	void palka(int y, int x)
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			DrawRectangle(i * 50 + 2.5, y + 2.5, rec_wid - 5, rec_hei - 5, BLUE);
+			DrawRectangle((i * 50 + 2.5) + x, y + 2.5, rec_wid - 5, rec_hei - 5, BLUE);
 		}
 	}
-	void cube(int y)
+	void cube(int y, int x)
 	{
 		for (int i = 0; i < 2; i++)
 		{
 			for (int el = 0; el < 2; el++)
 			{
-				DrawRectangle(el * 50 + 2.5, i * 50 + y + 2.5, rec_wid - 5, rec_hei - 5, YELLOW);
-				DrawRectangle(el * 50 + 2.5, i * 50 + y + 2.5, rec_wid - 5, rec_hei - 5, YELLOW);
+				DrawRectangle((el * 50 + 2.5) + x, i * 50 + y + 2.5, rec_wid - 5, rec_hei - 5, YELLOW);
+				DrawRectangle((el * 50 + 2.5) + x, i * 50 + y + 2.5, rec_wid - 5, rec_hei - 5, YELLOW);
 			}
 
 		}
 	}
-	void Tfigure(int y)
+	void Tfigure(int y, int x)
 	{
 		for (int el = 0; el < 2; el++)
 		{
 			for (int i = 0; i < 3; i++)
 			{
-				DrawRectangle(i * 50 + 2.5, y + 2.5, rec_wid - 5, rec_hei - 5, BLUE);
+				DrawRectangle((i * 50 + 2.5) + x, y + 2.5, rec_wid - 5, rec_hei - 5, BLUE);
 				if (el == 1)
 				{
-					DrawRectangle(el * 50 + 2.5,y + 2.5 - el*50, rec_wid - 5, rec_hei - 5, BLUE);
+					DrawRectangle((el * 50 + 2.5) + x,y + 2.5 - el*50, rec_wid - 5, rec_hei - 5, BLUE);
 				}
 			}
 		}
@@ -50,6 +50,7 @@ int main()
 	figure figura;
 	double start = GetTime();
 	int d_y = 0;
+	int x = 0	;
 
 
 	while (!WindowShouldClose())
@@ -70,10 +71,36 @@ int main()
 
 		if (GetTime() - start >= 0.5)
 		{
+
 			start = GetTime();
-			d_y += 50;
+
+			if (d_y == rec_hei * 19) {
+				d_y == rec_hei * 19;
+			}
+			else {
+				d_y += 50;
+			}
+
 		}
-		figura.Tfigure(d_y);
+
+		figura.palka(d_y, x);
+
+
+		if (x > rec_wid * 6) {
+			x = rec_wid * 6;
+		}
+		if (x <= 0) {
+			x = 0;
+		}
+
+
+
+		if (IsKeyPressed(KEY_RIGHT)) {
+			x += 50;
+		}
+		if (IsKeyPressed(KEY_LEFT)) {
+			x -= 50;
+		}
 
 
 		EndDrawing();
