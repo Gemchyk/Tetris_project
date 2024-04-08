@@ -117,11 +117,7 @@ int main()
 		/*----------------------POLE----------------------*/
 
 
-		/*while (true)
-		{
-			int ran = rand() % 3;
-
-		}*/
+		
 
 		if (GetTime() - start >= 0.5)
 		{
