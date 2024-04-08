@@ -5,6 +5,7 @@ const int rec_hei = 50;
 int blockX, cube_block = 0;
 
 
+
 class figure
 {
 public:
@@ -37,10 +38,10 @@ public:
 		{
 			for (int i = 0; i < 3; i++)
 			{
-				DrawRectangle((i * 50 + 2.5) + x, y + 2.5, rec_wid - 5, rec_hei - 5, BLUE);
+				DrawRectangle((i * 50 + 2.5) + x, y + 2.5, rec_wid - 5, rec_hei - 5, PURPLE);
 				if (el == 1)
 				{
-					DrawRectangle((el * 50 + 2.5) + x,y + 2.5 - el*50, rec_wid - 5, rec_hei - 5, BLUE);
+					DrawRectangle((el * 50 + 2.5) + x,y + 2.5 - el*50, rec_wid - 5, rec_hei - 5, PURPLE);
 				}
 			}
 		}
@@ -48,18 +49,18 @@ public:
 	}
 	void Jfigure(int y, int x) {
 		for (int i = 0; i < 3; i++) {
-			DrawRectangle((i * 50 + 2.5) + x,y + 2.5, rec_wid - 5, rec_hei - 5, BLUE);
+			DrawRectangle((i * 50 + 2.5) + x,y + 2.5, rec_wid - 5, rec_hei - 5, DARKBLUE);
 			if (i == 0) {
-				DrawRectangle((i * 50 + 2.5) + x, y + 2.5 - 50, rec_wid - 5, rec_hei - 5, BLUE);
+				DrawRectangle((i * 50 + 2.5) + x, y + 2.5 - 50, rec_wid - 5, rec_hei - 5, DARKBLUE);
 			}
 		}
 		blockX = 7;
 	}
 	void Lfigure(int y, int x) {
 		for (int i = 0; i < 3; i++) {
-			DrawRectangle((i * 50 + 2.5) + x, y + 2.5, rec_wid - 5, rec_hei - 5, BLUE);
+			DrawRectangle((i * 50 + 2.5) + x, y + 2.5, rec_wid - 5, rec_hei - 5, ORANGE);
 			if (i == 2) {
-				DrawRectangle((i * 50 + 2.5) + x, y + 2.5 - 50, rec_wid - 5, rec_hei - 5, BLUE);
+				DrawRectangle((i * 50 + 2.5) + x, y + 2.5 - 50, rec_wid - 5, rec_hei - 5, ORANGE);
 			}
 		}
 		blockX = 7;
@@ -67,10 +68,10 @@ public:
 	void Sfigure(int y, int x) {
 		for (int i = 0; i < 4; i++) {
 			if (i < 2) {
-				DrawRectangle((i * 50 + 2.5) + x, y + 2.5, rec_wid - 5, rec_hei - 5, BLUE);
+				DrawRectangle((i * 50 + 2.5) + x, y + 2.5, rec_wid - 5, rec_hei - 5, GREEN);
 			}
 			else {
-				DrawRectangle(((i - 1)* 50 + 2.5) + x, y + 2.5 - 50, rec_wid - 5, rec_hei - 5, BLUE);
+				DrawRectangle(((i - 1)* 50 + 2.5) + x, y + 2.5 - 50, rec_wid - 5, rec_hei - 5, GREEN);
 			}
 		}
 		blockX = 7;
@@ -78,15 +79,55 @@ public:
 	void SRfigure(int y, int x) {
 		for (int i = 0; i < 4; i++) {
 			if (i < 2) {
-				DrawRectangle((i * 50 + 2.5) + x, y + 2.5 - 50, rec_wid - 5, rec_hei - 5, BLUE);
+				DrawRectangle((i * 50 + 2.5) + x, y + 2.5 - 50, rec_wid - 5, rec_hei - 5, RED);
 			}
 			else  {
-				DrawRectangle(((i - 1) * 50 + 2.5) + x, y + 2.5, rec_wid - 5, rec_hei - 5, BLUE);
+				DrawRectangle(((i - 1) * 50 + 2.5) + x, y + 2.5, rec_wid - 5, rec_hei - 5, RED);
 			}
 		}
 		blockX = 7;
 	}
+	/*-----------------------------RANDOM-----------------------------------*/
+
+	
+
+	void Ran_Fig(int x,  int d_y, int d_x)
+	{
+		if (x == 1)
+		{
+			palka(d_y, d_x);
+		}
+		if (x == 2)
+		{
+			Tfigure(d_y, d_x);
+		}
+		if (x == 3)
+		{
+			cube(d_y, d_x);
+		}
+		if (x == 4)
+		{
+			Jfigure(d_y, d_x);
+		}
+		if (x == 5)
+		{
+			Lfigure(d_y, d_x);
+		}
+		if (x == 6)
+		{
+			Sfigure(d_y, d_x);
+		}
+		if (x == 7)
+		{
+			SRfigure(d_y, d_x);
+		}
+	}
+
 };
+int ran_num()
+{
+	return rand() % 7 + 1;
+}
 
 int main()
 {
@@ -98,6 +139,8 @@ int main()
 	double start = GetTime();
 	int d_y = 0;
 	int x = 150;
+	srand(time(0));
+	int num_of_fig = ran_num();
 
 
 	while (!WindowShouldClose())
@@ -119,51 +162,50 @@ int main()
 
 		
 
-		if (GetTime() - start >= 0.5)
-		{
-
-			start = GetTime();
-
-			if (d_y == rec_hei * (19 - cube_block)) {
-				d_y == rec_hei * (19 - cube_block);
-			}
-			else {
-				d_y += 50;
-			}
-
-
-		}
-
-		figura.SRfigure(d_y, x);
-
-
-		if (x > rec_wid * blockX) {
-			x = rec_wid * blockX;
-		}
-		if (x < 0) {
-			x = 0 - cube_block * 50;
-		}
-
-		if (d_y != rec_hei * (19 - cube_block)) {
-			if (IsKeyPressed(KEY_RIGHT)) {
-				x += 50;
-			}
-			if (IsKeyPressed(KEY_LEFT)) {
-				x -= 50;
-			}
-		}
-
-		
 		
 
-		/*---------------------RANDOM----------------------*/
-
-
 		
+			figura.Ran_Fig(num_of_fig, d_y, x);
 		
 
 
-		/*---------------------RANDOM----------------------*/
+		
+			if (GetTime() - start >= 0.5)
+			{
+				start = GetTime();
+
+				if (d_y == rec_hei * (19 - cube_block)) {
+					d_y = 0;
+					num_of_fig = rand() % 7 + 1;
+				}
+				else {
+					d_y += 50;
+				}
+			}
+
+
+
+			if (x > rec_wid * blockX) {
+				x = rec_wid * blockX;
+			}
+			if (x < 0) {
+				x = 0 - cube_block * 50;
+			}
+
+			if (d_y != rec_hei * (19 - cube_block)) {
+				if (IsKeyPressed(KEY_RIGHT)) {
+					x += 50;
+				}
+				if (IsKeyPressed(KEY_LEFT)) {
+					x -= 50;
+				}
+			}
+		
+			
+		
+		
+
+		
 
 
 
