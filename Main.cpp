@@ -3,6 +3,8 @@
 const int rec_wid = 50;
 const int rec_hei = 50;
 
+
+
 class figure
 {
 public:
@@ -15,6 +17,7 @@ public:
 	}
 	void cube(int y, int x)
 	{
+		x += 50;
 		for (int i = 0; i < 2; i++)
 		{
 			for (int el = 0; el < 2; el++)
@@ -50,7 +53,7 @@ int main()
 	figure figura;
 	double start = GetTime();
 	int d_y = 0;
-	int x = 0	;
+	int x = 150;
 
 
 	while (!WindowShouldClose())
@@ -69,6 +72,13 @@ int main()
 		}
 		/*----------------------POLE----------------------*/
 
+
+		while (true)
+		{
+			int ran = rand() % 3;
+
+		}
+
 		if (GetTime() - start >= 0.5)
 		{
 
@@ -83,7 +93,7 @@ int main()
 
 		}
 
-		figura.palka(d_y, x);
+		figura.Tfigure(d_y, x);
 
 
 		if (x > rec_wid * 6) {
@@ -101,6 +111,17 @@ int main()
 		if (IsKeyPressed(KEY_LEFT)) {
 			x -= 50;
 		}
+
+
+		/*---------------------RANDOM----------------------*/
+
+
+		
+		
+
+
+		/*---------------------RANDOM----------------------*/
+
 
 
 		EndDrawing();
