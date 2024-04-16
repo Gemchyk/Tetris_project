@@ -6,7 +6,11 @@
 #define figuretype
 
 
-
+struct Box
+{
+	bool Status = false;
+	Color col = BLACK;
+};
 
 
 

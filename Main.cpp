@@ -3,6 +3,7 @@
 const int rec_wid = 50;
 const int rec_hei = 50;
 int blockX, cube_block = 0;
+Box pole[20][10];
 
 
 
@@ -15,6 +16,8 @@ public:
 		{
 			DrawRectangle((i * 50 + 2.5) + x, y + 2.5, rec_wid - 5, rec_hei - 5, BLUE);
 		}
+		pole[y / 50][x / 50].Status = true;
+		pole[y / 50][x / 50].col = BLUE;
 		blockX = 6;
 	}
 	void cube(int y, int x)
@@ -29,6 +32,8 @@ public:
 			}
 			
 		}
+		pole[y / 50][x / 50].Status = true;
+		pole[y / 50][x / 50].col = YELLOW;
 		blockX = 7;
 		cube_block = 1;
 	}
@@ -44,6 +49,8 @@ public:
 					DrawRectangle((el * 50 + 2.5) + x,y + 2.5 - el*50, rec_wid - 5, rec_hei - 5, PURPLE);
 				}
 			}
+			pole[y / 50][x / 50].Status = true;
+			pole[y / 50][x / 50].col = PURPLE;
 		}
 		blockX = 7;
 	}
@@ -54,6 +61,8 @@ public:
 				DrawRectangle((i * 50 + 2.5) + x, y + 2.5 - 50, rec_wid - 5, rec_hei - 5, DARKBLUE);
 			}
 		}
+		pole[y / 50][x / 50].Status = true;
+		pole[y / 50][x / 50].col = DARKBLUE;
 		blockX = 7;
 	}
 	void Lfigure(int y, int x) {
@@ -62,7 +71,10 @@ public:
 			if (i == 2) {
 				DrawRectangle((i * 50 + 2.5) + x, y + 2.5 - 50, rec_wid - 5, rec_hei - 5, ORANGE);
 			}
+			
 		}
+		pole[y / 50][x / 50].Status = true;
+		pole[y / 50][x / 50].col = ORANGE;
 		blockX = 7;
 	}
 	void Sfigure(int y, int x) {
@@ -74,6 +86,8 @@ public:
 				DrawRectangle(((i - 1)* 50 + 2.5) + x, y + 2.5 - 50, rec_wid - 5, rec_hei - 5, GREEN);
 			}
 		}
+		pole[y / 50][x / 50].Status = true;
+		pole[y / 50][x / 50].col = GREEN;
 		blockX = 7;
 	}
 	void SRfigure(int y, int x) {
@@ -85,6 +99,8 @@ public:
 				DrawRectangle(((i - 1) * 50 + 2.5) + x, y + 2.5, rec_wid - 5, rec_hei - 5, RED);
 			}
 		}
+		pole[y / 50][x / 50].Status = true;
+		pole[y / 50][x / 50].col = RED;
 		blockX = 7;
 	}
 	/*-----------------------------RANDOM-----------------------------------*/
@@ -149,14 +165,21 @@ int main()
 
 		/*----------------------POLE----------------------*/
 		ClearBackground(BLACK);
-		for (float i = 0; i < 20; i++)
+
+		
+
+		for (int i = 0; i < 20; i++)
 		{
-			for (float el = 0; el < 10; el++)
+			for (int el = 0; el < 10; el++)
 			{
+				pole[i][el].Status = false;
+				pole[i][el].col = BLACK;
 				DrawRectangle(el * rec_wid, i * rec_hei, rec_wid, rec_hei, RAYWHITE);
 				DrawRectangle(el * rec_wid + 2.5, i * rec_hei + 2.5, rec_wid - 5, rec_hei - 5, BLACK);
 			}
 		}
+
+		
 		/*----------------------POLE----------------------*/
 
 
@@ -175,6 +198,11 @@ int main()
 				start = GetTime();
 
 				if (d_y == rec_hei * (19 - cube_block)) {
+					d_y = 0;
+					num_of_fig = rand() % 7 + 1;
+				}
+				if (pole[(d_y / 50) + 1][x / 50].Status == true)
+				{
 					d_y = 0;
 					num_of_fig = rand() % 7 + 1;
 				}
