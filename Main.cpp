@@ -17,15 +17,10 @@ public:
 			//DrawRectangle((i * cell_size + 2.5) + x, y + 2.5, cell_size - 5, cell_size - 5, BLUE);
 			if (y > 0) {
 				
-				if (x != 150) {
-					pole[y / cell_size - 1][x  / cell_size + (i- 1)].Status = false;
-					pole[y / cell_size - 1][x  / cell_size + (i - 1)].col = BLACK;
-				}
-				else {
-					pole[y / cell_size - 1][x / cell_size + i].Status = false;
-					pole[y / cell_size - 1][x / cell_size + i].col = BLACK;
-				}
+				pole[y / cell_size - 1][x / cell_size + i].Status = false;
+				pole[y / cell_size - 1][x / cell_size + i].col = BLACK;				
 			}
+			
 			pole[y / cell_size][x / cell_size + i].Status = true;
 			pole[y / cell_size][x / cell_size + i].col = BLUE;
 
@@ -250,9 +245,13 @@ int main()
 			if (d_y != cell_size * (19 - cube_block)) {
 				if (IsKeyPressed(KEY_RIGHT)) {
 					x += 50;
+					pole[(d_y / 50)][(x - 50) / 50].Status = false;  // працює
+					pole[(d_y / 50)][(x - 50) / 50].col = BLACK;
 				}
 				if (IsKeyPressed(KEY_LEFT)) {
 					x -= 50;
+					pole[(d_y / 50)][(x + 50) / 50].Status = false; //  не працює хз чому
+					pole[(d_y / 50)][(x + 50) / 50].col = BLACK;
 				}
 			}
 		
