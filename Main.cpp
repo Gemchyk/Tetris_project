@@ -157,6 +157,14 @@ int main()
 	int x = 150;
 	srand(time(0));
 	int num_of_fig = ran_num();
+	for (int i = 0; i < 20; i++)
+	{
+		for (int el = 0; el < 10; el++)
+		{
+			pole[i][el].Status = false;
+			pole[i][el].col = BLACK;
+		}
+	}
 
 
 	while (!WindowShouldClose())
@@ -172,10 +180,9 @@ int main()
 		{
 			for (int el = 0; el < 10; el++)
 			{
-				pole[i][el].Status = false;
-				pole[i][el].col = BLACK;
 				DrawRectangle(el * rec_wid, i * rec_hei, rec_wid, rec_hei, RAYWHITE);
-				DrawRectangle(el * rec_wid + 2.5, i * rec_hei + 2.5, rec_wid - 5, rec_hei - 5, BLACK);
+				DrawRectangle(el * rec_wid + 2.5, i * rec_hei + 2.5, rec_wid - 5, rec_hei - 5, pole[i][el].col);
+				figura.Ran_Fig(num_of_fig, d_y, x);
 			}
 		}
 
@@ -188,7 +195,7 @@ int main()
 		
 
 		
-			figura.Ran_Fig(num_of_fig, d_y, x);
+			
 		
 
 
@@ -207,6 +214,8 @@ int main()
 					num_of_fig = rand() % 7 + 1;
 				}
 				else {
+					pole[(d_y / 50) ][x / 50].Status = false;
+					pole[(d_y / 50)][x / 50].col = BLACK;
 					d_y += 50;
 				}
 			}
