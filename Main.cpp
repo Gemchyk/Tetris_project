@@ -192,7 +192,7 @@ int main()
 				DrawRectangle(el * cell_size, i * cell_size, cell_size, cell_size, RAYWHITE);
 				DrawRectangle(el * cell_size + 2.5, i * cell_size + 2.5, cell_size - 5, cell_size - 5, pole[i][el].col);
 				//figura.Ran_Fig(num_of_fig, d_y, x);
-				figura.palka(d_y, x);
+				figura.cube(d_y, x);
 				
 			}
 		}
@@ -218,13 +218,13 @@ int main()
 				if (d_y == cell_size * (19 - cube_block)) {
 					d_y = 0;
 					//figura.Ran_Fig(num_of_fig, d_y, x);
-					figura.palka(d_y, x);
-					//num_of_fig = rand() % 7 + 1;
+					figura.cube(d_y, x);
+					num_of_fig = rand() % 7 + 1;
 				}
 				if (pole[(d_y / 50) + 1][x / 50].Status == true)
 				{
 					d_y = 0;
-					//num_of_fig = rand() % 7 + 1;
+					num_of_fig = rand() % 7 + 1;
 				}
 				else {
 					pole[(d_y / 50) ][x / 50].Status = false;
@@ -246,8 +246,8 @@ int main()
 
 				if (IsKeyPressed(KEY_LEFT)) {
 					x -= 50;
-					pole[(d_y / 50)][(x + 50) / 50].Status = false;  // Ne ïðàöþº
-					pole[(d_y / 50)][(x + 50) / 50].col = BLACK;
+					pole[(d_y / 50)][(x + 200) / 50].Status = false;  // Ne ïðàöþº
+					pole[(d_y / 50)][(x + 200) / 50].col = BLACK;
 				}
 				if (IsKeyPressed(KEY_RIGHT)) {
 					x += 50;
