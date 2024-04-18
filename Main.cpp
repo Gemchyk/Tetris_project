@@ -211,7 +211,7 @@ int main()
 
 
 		
-			if (GetTime() - start >= 0.5)
+			if (GetTime() - start >= 0.2)
 			{
 				start = GetTime();
 
@@ -219,12 +219,12 @@ int main()
 					d_y = 0;
 					//figura.Ran_Fig(num_of_fig, d_y, x);
 					figura.palka(d_y, x);
-					num_of_fig = rand() % 7 + 1;
+					//num_of_fig = rand() % 7 + 1;
 				}
 				if (pole[(d_y / 50) + 1][x / 50].Status == true)
 				{
 					d_y = 0;
-					num_of_fig = rand() % 7 + 1;
+					//num_of_fig = rand() % 7 + 1;
 				}
 				else {
 					pole[(d_y / 50) ][x / 50].Status = false;
@@ -243,26 +243,20 @@ int main()
 			}
 
 			if (d_y != cell_size * (19 - cube_block)) {
+
+				if (IsKeyPressed(KEY_LEFT)) {
+					x -= 50;
+					pole[(d_y / 50)][(x + 50) / 50].Status = false;  // Ne ןנאצ‏÷
+					pole[(d_y / 50)][(x + 50) / 50].col = BLACK;
+				}
 				if (IsKeyPressed(KEY_RIGHT)) {
 					x += 50;
 					pole[(d_y / 50)][(x - 50) / 50].Status = false;  // ןנאצ‏÷
 					pole[(d_y / 50)][(x - 50) / 50].col = BLACK;
 				}
-				if (IsKeyPressed(KEY_LEFT)) {
-					x -= 50;
-					pole[(d_y / 50)][(x + 50) / 50].Status = false; //  םו ןנאצ‏÷ ץח קמלף
-					pole[(d_y / 50)][(x + 50) / 50].col = BLACK;
-				}
+				
 			}
 		
-			
-		
-		
-
-		
-
-
-
 		EndDrawing();
 	}
 }
