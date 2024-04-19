@@ -36,13 +36,19 @@ public:
 		{
 			for (int el = 0; el < 2; el++)
 			{
-				DrawRectangle((el * cell_size + 2.5) + x, i * 50 + y + 2.5, cell_size - 5, cell_size - 5, YELLOW);
-				DrawRectangle((el * cell_size + 2.5) + x, i * 50 + y + 2.5, cell_size - 5, cell_size - 5, YELLOW);
+				/*DrawRectangle((el * cell_size + 2.5) + x, i * 50 + y + 2.5, cell_size - 5, cell_size - 5, YELLOW);
+				DrawRectangle((el * cell_size + 2.5) + x, i * 50 + y + 2.5, cell_size - 5, cell_size - 5, YELLOW);*/
+				pole[y / cell_size + i][x / cell_size + el].Status = true;
+				pole[y / cell_size + i][x / cell_size + el].col = YELLOW;
+
+				if (y > 0) {
+					pole[y / cell_size  - 1][x / cell_size + el].Status = false;
+					pole[y / cell_size - 1][x / cell_size + el].col = BLACK;
+				}
 			}
 			
 		}
-		pole[y / cell_size][x / cell_size].Status = true;
-		pole[y / cell_size][x / cell_size].col = YELLOW;
+		
 		blockX = 7;
 		cube_block = 1;
 	}
@@ -221,14 +227,12 @@ int main()
 					figura.cube(d_y, x);
 					num_of_fig = rand() % 7 + 1;
 				}
-				if (pole[(d_y / 50) + 1][x / 50].Status == true)
+				if (pole[(d_y / 50) + 1][x / 50].Status == true) // багається тут, через число 1, бо у куба 2 рівні по у
 				{
 					d_y = 0;
 					num_of_fig = rand() % 7 + 1;
 				}
 				else {
-					pole[(d_y / 50) ][x / 50].Status = false;
-					pole[(d_y / 50)][x / 50].col = BLACK;
 					d_y += 50;
 				}
 			}
