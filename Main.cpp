@@ -4,6 +4,7 @@
 const int cell_size = 50;
 int blockX, cube_block = 0;
 Box pole[20][10];
+Box figura[4][4];
 
 
 
@@ -29,6 +30,17 @@ public:
 		
 		blockX = 6;
 	}
+
+
+
+	/*void palka(int y, int x)
+	{
+		Box palka;
+		for (int i = 0; i < 4; i++)              //Мені різко стало влом це робити, спробую потім пофіксити твої баги)
+		{
+
+		}
+	}*/
 	void cube(int y, int x)
 	{
 		x += 50;
