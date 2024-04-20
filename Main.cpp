@@ -193,6 +193,7 @@ int main()
 		}
 	}
 
+	
 
 	while (!WindowShouldClose())
 	{
@@ -218,7 +219,7 @@ int main()
 		
 		/*----------------------POLE----------------------*/
 
-
+		std::cout << "test!";
 		
 
 		
