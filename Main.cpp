@@ -31,8 +31,6 @@ public:
 		blockX = 6;
 	}
 
-
-
 	/*void palka(int y, int x)
 	{
 		Box palka;
