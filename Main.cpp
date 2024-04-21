@@ -13,52 +13,83 @@ class figure
 public:
 	void palka(int y, int x)
 	{
+		//for (int i = 0; i < 4; i++)
+		//{
+		//	//DrawRectangle((i * cell_size + 2.5) + x, y + 2.5, cell_size - 5, cell_size - 5, BLUE);
+		//	if (y > 0) {
+		//		
+		//		pole[y / cell_size - 1][x / cell_size + i].Status = false;
+		//		pole[y / cell_size - 1][x / cell_size + i].col = BLACK;				
+		//	}
+		//	
+		//	pole[y / cell_size][x / cell_size + i].Status = true;
+		//	pole[y / cell_size][x / cell_size + i].col = BLUE;
+
+		//	
+		//}
+
+	
+
+		
 		for (int i = 0; i < 4; i++)
 		{
-			//DrawRectangle((i * cell_size + 2.5) + x, y + 2.5, cell_size - 5, cell_size - 5, BLUE);
-			if (y > 0) {
-				
-				pole[y / cell_size - 1][x / cell_size + i].Status = false;
-				pole[y / cell_size - 1][x / cell_size + i].col = BLACK;				
-			}
-			
-			pole[y / cell_size][x / cell_size + i].Status = true;
-			pole[y / cell_size][x / cell_size + i].col = BLUE;
+			for (int el = 0; el < 4; el++)
+			{
+				figura[3][i].Status = true;
+				figura[3][i].col = BLUE;
+				if (y > 0)
+				{
+					pole[y / cell_size - 1][x / cell_size + i].Status = false;
+					pole[y / cell_size - 1][x / cell_size + i].col = BLACK;
+				}
 
-			
+				pole[y / cell_size][x / cell_size + i].Status = figura[el][i].Status;
+				pole[y / cell_size][x / cell_size + i].col = figura[el][i].col;
+			}
 		}
-		
 		blockX = 6;
 	}
 
-	/*void palka(int y, int x)
-	{
-		Box palka;
-		for (int i = 0; i < 4; i++)              //Мені різко стало влом це робити, спробую потім пофіксити твої баги)
-		{
-
-		}
-	}*/
+	
 	void cube(int y, int x)
 	{
 		x += 50;
+		//for (int i = 0; i < 2; i++)
+		//{
+		//	for (int el = 0; el < 2; el++)
+		//	{
+		//		/*DrawRectangle((el * cell_size + 2.5) + x, i * 50 + y + 2.5, cell_size - 5, cell_size - 5, YELLOW);
+		//		DrawRectangle((el * cell_size + 2.5) + x, i * 50 + y + 2.5, cell_size - 5, cell_size - 5, YELLOW);*/
+		//		pole[y / cell_size + i][x / cell_size + el].Status = true;
+		//		pole[y / cell_size + i][x / cell_size + el].col = YELLOW;
+
+		//		if (y > 0) {
+		//			pole[y / cell_size  - 1][x / cell_size + el].Status = false;
+		//			pole[y / cell_size - 1][x / cell_size + el].col = BLACK;
+		//		}
+		//	}
+		//	
+		//}
+
+
+		
 		for (int i = 0; i < 2; i++)
 		{
 			for (int el = 0; el < 2; el++)
 			{
-				/*DrawRectangle((el * cell_size + 2.5) + x, i * 50 + y + 2.5, cell_size - 5, cell_size - 5, YELLOW);
-				DrawRectangle((el * cell_size + 2.5) + x, i * 50 + y + 2.5, cell_size - 5, cell_size - 5, YELLOW);*/
-				pole[y / cell_size + i][x / cell_size + el].Status = true;
-				pole[y / cell_size + i][x / cell_size + el].col = YELLOW;
-
-				if (y > 0) {
-					pole[y / cell_size  - 1][x / cell_size + el].Status = false;
-					pole[y / cell_size - 1][x / cell_size + el].col = BLACK;
+				if (y > 0)
+				{
+					pole[y / cell_size - 1][x / cell_size + i].Status = false;
+					pole[y / cell_size - 1][x / cell_size + i].col = BLACK;
 				}
+				figura[el][i].Status = true;
+				figura[el][i].col = YELLOW;
+
+				pole[y / cell_size + el][x / cell_size + i].Status = figura[el + 1][i + 1].Status;
+				pole[y / cell_size + el][x / cell_size + i].col = figura[el + 1][i + 1].col;
 			}
-			
 		}
-		
+
 		blockX = 7;
 		cube_block = 1;
 	}
@@ -79,6 +110,7 @@ public:
 		}
 		blockX = 7;
 	}
+	
 	void Jfigure(int y, int x) {
 		for (int i = 0; i < 3; i++) {
 			DrawRectangle((i * 50 + 2.5) + x,y + 2.5, cell_size - 5, cell_size - 5, DARKBLUE);
@@ -238,7 +270,7 @@ int main()
 					figura.cube(d_y, x);
 					num_of_fig = rand() % 7 + 1;
 				}
-				if (pole[(d_y / 50) + 1][x / 50].Status == true) // багається тут, через число 1, бо у куба 2 рівні по у
+				if (pole[(d_y / cell_size) + 1][x / cell_size].Status == true) // багається тут, через число 1, бо у куба 2 рівні по у
 				{
 					d_y = 0;
 					num_of_fig = rand() % 7 + 1;
