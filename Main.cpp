@@ -79,14 +79,15 @@ public:
 			{
 				if (y > 0)
 				{
-					pole[y / cell_size - 1][x / cell_size + i].Status = false;
-					pole[y / cell_size - 1][x / cell_size + i].col = BLACK;
+					pole[y / cell_size - 1][x / cell_size + el].Status = false;
+					pole[y / cell_size - 1][x / cell_size + el].col = BLACK;
 				}
-				figura[el][i].Status = true;
-				figura[el][i].col = YELLOW;
 
-				pole[y / cell_size + el][x / cell_size + i].Status = figura[el + 1][i + 1].Status;
-				pole[y / cell_size + el][x / cell_size + i].col = figura[el + 1][i + 1].col;
+				figura[i][el].Status = true;
+				figura[i][el].col = YELLOW;
+
+				pole[y / cell_size + i][x / cell_size + el].Status = figura[i][el].Status;
+				pole[y / cell_size + i][x / cell_size + el].col = figura[i][el].col;
 			}
 		}
 
@@ -249,7 +250,7 @@ int main()
 		
 		/*----------------------POLE----------------------*/
 
-		std::cout << "test!";
+		
 		
 
 		
@@ -270,7 +271,7 @@ int main()
 					figura.cube(d_y, x);
 					num_of_fig = rand() % 7 + 1;
 				}
-				if (pole[(d_y / cell_size) + 1][x / cell_size].Status == true) // багається тут, через число 1, бо у куба 2 рівні по у
+				if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true) 
 				{
 					d_y = 0;
 					num_of_fig = rand() % 7 + 1;
@@ -298,8 +299,8 @@ int main()
 				}
 				if (IsKeyPressed(KEY_RIGHT)) {
 					x += 50;
-					pole[(d_y / 50)][(x - 50) / 50].Status = false;  // працює
-					pole[(d_y / 50)][(x - 50) / 50].col = BLACK;
+					pole[d_y / 50 ][(x + 50) / 50].Status = false;  // працює
+					pole[d_y / 50][(x + 50) / 50].col = BLACK;
 				}
 				
 			}
