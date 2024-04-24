@@ -263,36 +263,25 @@ int main()
 
 		/*----------------------POLE----------------------*/
 
+		//if (GetTime() - start >= 0.2)
+		//{
+		//	start = GetTime();
 
-
-
-
-
-
-
-
-
-
-
-		if (GetTime() - start >= 0.2)
-		{
-			start = GetTime();
-
-			if (d_y == cell_size * (19 - cube_block)) {
-				d_y = 0;
-				//figura.Ran_Fig(num_of_fig, d_y, x);
-				//object.cube(d_y, x);
-				num_of_fig = rand() % 7 + 1;
-			}
-			if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true)
-			{
-				d_y = 0;
-				num_of_fig = rand() % 7 + 1;
-			}
-			else {
-				d_y += cell_size;
-			}
-		}
+		//	if (d_y == cell_size * (19 - cube_block)) {
+		//		d_y = 0;
+		//		//figura.Ran_Fig(num_of_fig, d_y, x);
+		//		//object.cube(d_y, x);
+		//		num_of_fig = rand() % 7 + 1;
+		//	}
+		//	if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true)    Комент щоб не було конфліктів
+		//	{
+		//		d_y = 0;
+		//		num_of_fig = rand() % 7 + 1;
+		//	}
+		//	else {
+		//		d_y += cell_size;
+		//	}
+		//}
 
 
 
