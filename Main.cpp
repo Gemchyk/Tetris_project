@@ -237,6 +237,7 @@ int main()
 		}
 	}
 
+	
 
 
 	while (!WindowShouldClose())
@@ -265,9 +266,21 @@ int main()
 
 
 
-
-
-
+				if (d_y == cell_size * (19 - cube_block)) {
+					d_y = 0;
+					//figura.Ran_Fig(num_of_fig, d_y, x);
+					figura.cube(d_y, x);
+					num_of_fig = rand() % 7 + 1;
+				}
+				if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true) 
+				{
+					d_y = 0;
+					num_of_fig = rand() % 7 + 1;
+				}
+				else {
+					d_y += 50;
+				}
+			}
 
 
 
@@ -313,7 +326,7 @@ int main()
 		//		//object.cube(d_y, x);
 		//		num_of_fig = rand() % 7 + 1;
 		//	}
-		//	if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true)    Êîìåíò ùîá íå áóëî êîíôë³êò³â
+		//	if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true)    ÃŠÃ®Ã¬Ã¥Ã­Ã² Ã¹Ã®Ã¡ Ã­Ã¥ Ã¡Ã³Ã«Ã® ÃªÃ®Ã­Ã´Ã«Â³ÃªÃ²Â³Ã¢
 		//	{
 		//		d_y = 0;
 		//		num_of_fig = rand() % 7 + 1;
@@ -345,7 +358,8 @@ int main()
 
 					}
 				}
-				//pole[(d_y / 50)][(x + 200) / 50].Status = false;  // Ne ïðàöþº
+
+				//pole[(d_y / 50)][(x + 200) / 50].Status = false;  // Ne Ã¯Ã°Ã Ã¶Ã¾Âº
 				//pole[(d_y / 50)][(x + 200) / 50].col = BLACK;
 			}
 			if (IsKeyPressed(KEY_RIGHT)) {
@@ -357,8 +371,13 @@ int main()
 						/*	pole[(d_y / 50)][x / 50].col = figura[el][i].col;
 							pole[(d_y / 50)][x / 50].Status = figura[el][i].Status;*/
 					}
+				if (IsKeyPressed(KEY_RIGHT)) {
+					x += 50;
+					pole[d_y / 50 ][(x + 50) / 50].Status = false;  // Ã¯Ã°Ã Ã¶Ã¾Âº
+					pole[d_y / 50][(x + 50) / 50].col = BLACK;
+
 				}
-				//pole[d_y / 50 ][(x - 50) / 50].Status = false;  // ïðàöþº
+				//pole[d_y / 50 ][(x - 50) / 50].Status = false;  // Ã¯Ã°Ã Ã¶Ã¾Âº
 				//pole[d_y / 50][(x - 50) / 50].col = BLACK;
 			}
 
