@@ -297,14 +297,6 @@ int main()
 
 
 
-
-
-
-
-
-
-
-
 		if (x > cell_size * blockX) {
 			x = cell_size * blockX;
 		}
@@ -333,6 +325,7 @@ int main()
 					}
 				}
 
+
 			}
 			if (IsKeyPressed(KEY_RIGHT)) {
 				x += 50;
@@ -353,6 +346,7 @@ int main()
 						/*pole[(d_y / cell_size)][(x - 50) / cell_size].Status = false;
 						pole[(d_y / cell_size)][(x - 50) / cell_size].col = BLACK;*/			/*TEST NUMBERS*/
 					}
+
 			}
 
 		}
