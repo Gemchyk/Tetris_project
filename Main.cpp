@@ -3,9 +3,12 @@
 
 const int cell_size = 50;
 int blockX, cube_block = 0;
+int right_false = 0;
+int left_false = 0;
 Box pole[20][10];
-Figure coming_figures[10];
-//Box figura[4][4];
+//Figure coming_figures[10];
+Box figura[4][4];
+
 
 
 
@@ -14,15 +17,15 @@ class figure
 {
 public:
 
-	Figure init_palka()
-	{
-		Figure init_figure;
-		init_figure.a[0] = { 0, 0 };
-		init_figure.a[1] = { 1, 0 };
-		init_figure.a[2] = { 2, 0 };
-		init_figure.a[3] = { 3, 0 };
-		return init_figure;
-	}
+	//Figure init_palka()
+	//{
+	//	Figure init_figure;
+	//	init_figure.a[0] = { 0, 0 };
+	//	init_figure.a[1] = { 1, 0 };
+	//	init_figure.a[2] = { 2, 0 };
+	//	init_figure.a[3] = { 3, 0 };
+	//	return init_figure;
+	//}
 
 	void palka(int y, int x)
 	{
@@ -44,7 +47,7 @@ public:
 
 
 
-		/*for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++)
 		{
 			for (int el = 0; el < 4; el++)
 			{
@@ -59,8 +62,10 @@ public:
 				pole[y / cell_size][x / cell_size + i].Status = figura[el][i].Status;
 				pole[y / cell_size][x / cell_size + i].col = figura[el][i].col;
 			}
-		}*/
+		}
 		blockX = 6;
+		right_false = 200;
+		left_false = 50;
 	}
 
 
@@ -86,7 +91,7 @@ public:
 
 
 
-		/*for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 2; i++)
 		{
 			for (int el = 0; el < 2; el++)
 			{
@@ -102,8 +107,9 @@ public:
 				pole[y / cell_size + i][x / cell_size + el].Status = figura[i][el].Status;
 				pole[y / cell_size + i][x / cell_size + el].col = figura[i][el].col;
 			}
-		}*/
-
+		}
+		right_false = 150;
+		left_false = 50;
 		blockX = 7;
 		cube_block = 1;
 	}
@@ -256,7 +262,7 @@ int main()
 				DrawRectangle(el * cell_size, i * cell_size, cell_size, cell_size, RAYWHITE);
 				DrawRectangle(el * cell_size + 2.5, i * cell_size + 2.5, cell_size - 5, cell_size - 5, pole[i][el].col);
 				//object.Ran_Fig(num_of_fig, d_y, x);
-				//object.palka(d_y, x);
+				object.cube(d_y, x);
 
 			}
 		}
@@ -266,75 +272,28 @@ int main()
 
 
 
-				if (d_y == cell_size * (19 - cube_block)) {
-					d_y = 0;
-					//figura.Ran_Fig(num_of_fig, d_y, x);
-					figura.cube(d_y, x);
-					num_of_fig = rand() % 7 + 1;
-				}
-				if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true) 
-				{
-					d_y = 0;
-					num_of_fig = rand() % 7 + 1;
-				}
-				else {
-					d_y += 50;
-				}
+
+
+		if (GetTime() - start >= 0.2)
+		{
+			start = GetTime();
+
+			if (d_y == cell_size * (19 - cube_block)) {
+				d_y = 0;
+				//figura.Ran_Fig(num_of_fig, d_y, x);
+				//object.cube(d_y, x);
+				num_of_fig = rand() % 7 + 1;
 			}
+			if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true)   
+			{
+				d_y = 0;
+				num_of_fig = rand() % 7 + 1;
+			}
+			else {
+				d_y += cell_size;
+			}
+		}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		//if (GetTime() - start >= 0.2)
-		//{
-		//	start = GetTime();
-
-		//	if (d_y == cell_size * (19 - cube_block)) {
-		//		d_y = 0;
-		//		//figura.Ran_Fig(num_of_fig, d_y, x);
-		//		//object.cube(d_y, x);
-		//		num_of_fig = rand() % 7 + 1;
-		//	}
-		//	if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true)    Êîìåíò ùîá íå áóëî êîíôë³êò³â
-		//	{
-		//		d_y = 0;
-		//		num_of_fig = rand() % 7 + 1;
-		//	}
-		//	else {
-		//		d_y += cell_size;
-		//	}
-		//}
 
 
 
@@ -353,14 +312,20 @@ int main()
 				{
 					for (int el = 0; el < 4; el++)
 					{
-						/*pole[(d_y / 50)][x / 50].col = figura[el][i].col;
-						pole[(d_y / 50)][x / 50].Status = figura[el][i].Status;*/
+						pole[(d_y / cell_size)][x / cell_size].col = figura[el][i].col;
+						pole[(d_y / cell_size)][x / cell_size].Status = figura[el][i].Status;
 
+						pole[(d_y / cell_size)][(x + right_false) / cell_size].Status = false;  
+						pole[(d_y / cell_size)][(x + right_false) / cell_size].col = BLACK;
+
+						pole[(d_y / cell_size) + 1][(x + right_false) / cell_size].Status = false;		/*Works*/
+						pole[(d_y / cell_size) + 1][(x + right_false) / cell_size].col = BLACK;
+						/*pole[(d_y / cell_size)][(x + 150) / cell_size].Status = false;
+						pole[(d_y / cell_size)][(x + 150) / cell_size].col = BLACK;*/            /*TEST NUMBERS*/
 					}
 				}
 
-				//pole[(d_y / 50)][(x + 200) / 50].Status = false;  // Ne ïðàöþº
-				//pole[(d_y / 50)][(x + 200) / 50].col = BLACK;
+
 			}
 			if (IsKeyPressed(KEY_RIGHT)) {
 				x += 50;
@@ -368,17 +333,20 @@ int main()
 				{
 					for (int el = 0; el < 4; el++)
 					{
-						/*	pole[(d_y / 50)][x / 50].col = figura[el][i].col;
-							pole[(d_y / 50)][x / 50].Status = figura[el][i].Status;*/
-					}
-				if (IsKeyPressed(KEY_RIGHT)) {
-					x += 50;
-					pole[d_y / 50 ][(x + 50) / 50].Status = false;  // ïðàöþº
-					pole[d_y / 50][(x + 50) / 50].col = BLACK;
+						pole[(d_y / cell_size)][x / cell_size].col = figura[el][i].col;
+						pole[(d_y / cell_size)][x / cell_size].Status = figura[el][i].Status;
 
-				}
-				//pole[d_y / 50 ][(x - 50) / 50].Status = false;  // ïðàöþº
-				//pole[d_y / 50][(x - 50) / 50].col = BLACK;
+						pole[d_y / cell_size][(x - left_false) / cell_size].Status = false;
+						pole[d_y / cell_size][(x - left_false) / cell_size].col = BLACK;
+
+						pole[(d_y / cell_size) + 1][(x - left_false) / cell_size].Status = false;		/*Doesn't work(WHY)*/
+						pole[(d_y / cell_size) + 1][(x - left_false) / cell_size].col = BLACK;
+
+
+						/*pole[(d_y / cell_size)][(x - 50) / cell_size].Status = false;
+						pole[(d_y / cell_size)][(x - 50) / cell_size].col = BLACK;*/			/*TEST NUMBERS*/
+					}
+
 			}
 
 		}
