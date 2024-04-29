@@ -272,7 +272,7 @@ int main()
 
 
 
-<<<<<<< HEAD
+
 
 		if (GetTime() - start >= 0.2)
 		{
@@ -293,22 +293,6 @@ int main()
 				d_y += cell_size;
 			}
 		}
-=======
-				if (d_y == cell_size * (19 - cube_block)) {
-					d_y = 0;
-					//figura.Ran_Fig(num_of_fig, d_y, x);
-					figura.cube(d_y, x);
-					num_of_fig = rand() % 7 + 1;
-				}
-				if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true) 
-				{
-					d_y = 0;
-					num_of_fig = rand() % 7 + 1;
-				}
-				else {
-					d_y += 50;
-				}
-			}
 
 
 
@@ -318,52 +302,6 @@ int main()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		//if (GetTime() - start >= 0.2)
-		//{
-		//	start = GetTime();
-
-		//	if (d_y == cell_size * (19 - cube_block)) {
-		//		d_y = 0;
-		//		//figura.Ran_Fig(num_of_fig, d_y, x);
-		//		//object.cube(d_y, x);
-		//		num_of_fig = rand() % 7 + 1;
-		//	}
-		//	if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true)    Êîìåíò ùîá íå áóëî êîíôë³êò³â
-		//	{
-		//		d_y = 0;
-		//		num_of_fig = rand() % 7 + 1;
-		//	}
-		//	else {
-		//		d_y += cell_size;
-		//	}
-		//}
->>>>>>> 525be9a2f99cba373d06e77d4d523876bf7bad18
 
 
 
@@ -394,13 +332,7 @@ int main()
 						pole[(d_y / cell_size)][(x + 150) / cell_size].col = BLACK;*/            /*TEST NUMBERS*/
 					}
 				}
-<<<<<<< HEAD
-				
-=======
 
-				//pole[(d_y / 50)][(x + 200) / 50].Status = false;  // Ne ïðàöþº
-				//pole[(d_y / 50)][(x + 200) / 50].col = BLACK;
->>>>>>> 525be9a2f99cba373d06e77d4d523876bf7bad18
 			}
 			if (IsKeyPressed(KEY_RIGHT)) {
 				x += 50;
@@ -421,18 +353,6 @@ int main()
 						/*pole[(d_y / cell_size)][(x - 50) / cell_size].Status = false;
 						pole[(d_y / cell_size)][(x - 50) / cell_size].col = BLACK;*/			/*TEST NUMBERS*/
 					}
-				if (IsKeyPressed(KEY_RIGHT)) {
-					x += 50;
-					pole[d_y / 50 ][(x + 50) / 50].Status = false;  // ïðàöþº
-					pole[d_y / 50][(x + 50) / 50].col = BLACK;
-
-				}
-<<<<<<< HEAD
-				
-=======
-				//pole[d_y / 50 ][(x - 50) / 50].Status = false;  // ïðàöþº
-				//pole[d_y / 50][(x - 50) / 50].col = BLACK;
->>>>>>> 525be9a2f99cba373d06e77d4d523876bf7bad18
 			}
 
 		}
