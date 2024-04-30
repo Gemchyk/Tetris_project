@@ -8,9 +8,33 @@ int left_false = 0;
 Box pole[20][10];
 //Figure coming_figures[10];
 Box figura[4][4];
+int num_of_fig = ran_num();
+double start = GetTime();
+int d_y = 0;
+int x = 150;
 
 
+void dowwn(figure a)
+{
+	if (GetTime() - start >= 0.2)
+	{
+		start = GetTime();
 
+		if (d_y == cell_size * (19 - cube_block)) {
+			d_y = 0;
+			a.cube(d_y, x);
+			num_of_fig = rand() % 7 + 1;
+		}
+		if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true)
+		{
+			d_y = 0;
+			num_of_fig = rand() % 7 + 1;
+		}
+		else {
+			d_y += cell_size;
+		}
+	}
+}
 
 
 class figure
@@ -115,7 +139,7 @@ public:
 	}
 	void Tfigure(int y, int x)
 	{
-		for (int el = 0; el < 2; el++)
+	/*	for (int el = 0; el < 2; el++)
 		{
 			for (int i = 0; i < 3; i++)
 			{
@@ -127,7 +151,33 @@ public:
 			}
 			pole[y / cell_size][x / cell_size].Status = true;
 			pole[y / cell_size][x / cell_size].col = PURPLE;
+		}*/
+
+		
+
+
+		for (int el = 0; el < 3; el++)
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				if (y > 0)
+				{
+					pole[y / cell_size - 1][x / cell_size + el].Status = false;
+					pole[y / cell_size - 1][x / cell_size + el].col = BLACK;
+				}
+				figura[1][i].Status = true;
+				figura[1][i].col = PURPLE;
+
+				figura[0][1].Status = true;
+				figura[0][1].col = PURPLE;
+
+
+				pole[y / cell_size + i][x / cell_size + el].Status = figura[i][el].Status;
+				pole[y / cell_size + i][x / cell_size + el].col = figura[i][el].col;
+
+			}
 		}
+
 		blockX = 7;
 	}
 
@@ -144,14 +194,30 @@ public:
 	}
 	void Lfigure(int y, int x) {
 		for (int i = 0; i < 3; i++) {
-			DrawRectangle((i * 50 + 2.5) + x, y + 2.5, cell_size - 5, cell_size - 5, ORANGE);
-			if (i == 2) {
-				DrawRectangle((i * 50 + 2.5) + x, y + 2.5 - 50, cell_size - 5, cell_size - 5, ORANGE);
+			for (int el = 0; el < 2; el++)
+			{
+				if (y > 0)
+				{
+					pole[y / cell_size - 1][x / cell_size + el].Status = false;
+					pole[y / cell_size - 1][x / cell_size + el].col = BLACK;
+				}
+				figura[i][1].Status = true;
+				figura[i][1].col = ORANGE;
+
+				figura[0][2].Status = true;
+				figura[0][2].col = ORANGE;
+
+				pole[y / cell_size + i][x / cell_size + el].Status = figura[i][el].Status;
+				pole[y / cell_size + i][x / cell_size + el].col = figura[i][el].col;
 			}
 
 		}
-		pole[y / 50][x / 50].Status = true;
-		pole[y / 50][x / 50].col = ORANGE;
+		pole[y / cell_size][x / cell_size].Status = true;
+		pole[y / cell_size][x / cell_size].col = ORANGE;
+
+		right_false = 100;
+		left_false = 50;
+
 		blockX = 7;
 	}
 	void Sfigure(int y, int x) {
@@ -229,11 +295,9 @@ int main()
 
 
 	figure object;
-	double start = GetTime();
-	int d_y = 0;
-	int x = 150;
 	srand(time(0));
-	int num_of_fig = ran_num();
+
+	
 	for (int i = 0; i < 20; i++)
 	{
 		for (int el = 0; el < 10; el++)
@@ -243,7 +307,7 @@ int main()
 		}
 	}
 
-	
+
 
 
 	while (!WindowShouldClose())
@@ -262,8 +326,7 @@ int main()
 				DrawRectangle(el * cell_size, i * cell_size, cell_size, cell_size, RAYWHITE);
 				DrawRectangle(el * cell_size + 2.5, i * cell_size + 2.5, cell_size - 5, cell_size - 5, pole[i][el].col);
 				//object.Ran_Fig(num_of_fig, d_y, x);
-				object.cube(d_y, x);
-
+				object.Lfigure(d_y, x);
 			}
 		}
 
@@ -274,25 +337,8 @@ int main()
 
 
 
-		if (GetTime() - start >= 0.2)
-		{
-			start = GetTime();
-
-			if (d_y == cell_size * (19 - cube_block)) {
-				d_y = 0;
-				//figura.Ran_Fig(num_of_fig, d_y, x);
-				//object.cube(d_y, x);
-				num_of_fig = rand() % 7 + 1;
-			}
-			if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true)   
-			{
-				d_y = 0;
-				num_of_fig = rand() % 7 + 1;
-			}
-			else {
-				d_y += cell_size;
-			}
-		}
+		
+		dowwn(object);
 
 
 
@@ -315,11 +361,14 @@ int main()
 						pole[(d_y / cell_size)][x / cell_size].col = figura[el][i].col;
 						pole[(d_y / cell_size)][x / cell_size].Status = figura[el][i].Status;
 
-						pole[(d_y / cell_size)][(x + right_false) / cell_size].Status = false;  
+						pole[(d_y / cell_size)][(x + right_false) / cell_size].Status = false;
 						pole[(d_y / cell_size)][(x + right_false) / cell_size].col = BLACK;
 
 						pole[(d_y / cell_size) + 1][(x + right_false) / cell_size].Status = false;		/*Works*/
 						pole[(d_y / cell_size) + 1][(x + right_false) / cell_size].col = BLACK;
+
+						pole[(d_y / cell_size) + 2][(x + right_false) / cell_size].Status = false;		/*Works*/
+						pole[(d_y / cell_size) + 2][(x + right_false) / cell_size].col = BLACK;
 						/*pole[(d_y / cell_size)][(x + 150) / cell_size].Status = false;
 						pole[(d_y / cell_size)][(x + 150) / cell_size].col = BLACK;*/            /*TEST NUMBERS*/
 					}
@@ -339,19 +388,22 @@ int main()
 						pole[d_y / cell_size][(x - left_false) / cell_size].Status = false;
 						pole[d_y / cell_size][(x - left_false) / cell_size].col = BLACK;
 
-						pole[(d_y / cell_size) + 1][(x - left_false) / cell_size].Status = false;		/*Doesn't work(WHY)*/
-						pole[(d_y / cell_size) + 1][(x - left_false) / cell_size].col = BLACK;
+						pole[(d_y / cell_size) + 1][(x - left_false) / cell_size - 1].Status = false;		/*Doesn't work(WHY)*/
+						pole[(d_y / cell_size) + 1][(x - left_false) / cell_size - 1].col = BLACK;
 
 
 						/*pole[(d_y / cell_size)][(x - 50) / cell_size].Status = false;
 						pole[(d_y / cell_size)][(x - 50) / cell_size].col = BLACK;*/			/*TEST NUMBERS*/
 					}
+<<<<<<< Updated upstream
+=======
+				}
+>>>>>>> Stashed changes
 
 			}
 
+			EndDrawing();
 		}
-
-		EndDrawing();
 	}
 }
 
