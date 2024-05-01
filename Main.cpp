@@ -139,57 +139,57 @@ public:
 	}
 	void Tfigure(int y, int x)
 	{
-	/*	for (int el = 0; el < 2; el++)
+
+		for (int i = 0; i < 3; i++)
 		{
-			for (int i = 0; i < 3; i++)
+			for (int el = 0; el < 3; el++)
 			{
-				DrawRectangle((i * cell_size + 2.5) + x, y + 2.5, cell_size - 5, cell_size - 5, PURPLE);
-				if (el == 1)
+				//DrawRectangle((el * cell_size + 2.5) + x, y + 2.5, cell_size - 5, cell_size - 5, PURPLE);
+				figura[2][i].Status = true;
+				figura[2][i].col = PURPLE;
+			
+				if (i == 1)
 				{
-					DrawRectangle((el * cell_size + 2.5) + x, y + 2.5 - el * 50, cell_size - 5, cell_size - 5, PURPLE);
+					//DrawRectangle((el * cell_size + 2.5) + x, y + 2.5 - el * 50, cell_size - 5, cell_size - 5, PURPLE);
+					figura[1][i].Status = true;
+					figura[1][i].col = PURPLE;
+					
 				}
-			}
-			pole[y / cell_size][x / cell_size].Status = true;
-			pole[y / cell_size][x / cell_size].col = PURPLE;
-		}*/
-
-		
 
 
-		for (int el = 0; el < 3; el++)
-		{
-			for (int i = 0; i < 3; i++)
-			{
+				
+				pole[y / cell_size + el ][x / cell_size + i].Status = figura[el][i].Status;
+				pole[y / cell_size + el][x / cell_size + i].col = figura[el][i].col;
+				
 				if (y > 0)
 				{
-					pole[y / cell_size - 1][x / cell_size + el].Status = false;
-					pole[y / cell_size - 1][x / cell_size + el].col = BLACK;
+					pole[(y / cell_size) - 1][x / cell_size ].Status = false;
+					pole[(y / cell_size) - 1][x / cell_size].col = BLACK;
 				}
-				figura[1][i].Status = true;
-				figura[1][i].col = PURPLE;
-
-				figura[0][1].Status = true;
-				figura[0][1].col = PURPLE;
-
-
-				pole[y / cell_size + i][x / cell_size + el].Status = figura[i][el].Status;
-				pole[y / cell_size + i][x / cell_size + el].col = figura[i][el].col;
-
 			}
-		}
-
+    }
+  
+		right_false = 200;
+		left_false = 100;		
 		blockX = 7;
 	}
 
 	void Jfigure(int y, int x) {
 		for (int i = 0; i < 3; i++) {
-			DrawRectangle((i * 50 + 2.5) + x, y + 2.5, cell_size - 5, cell_size - 5, DARKBLUE);
-			if (i == 0) {
-				DrawRectangle((i * 50 + 2.5) + x, y + 2.5 - 50, cell_size - 5, cell_size - 5, DARKBLUE);
+			for (int el = 0; el < 3; el++) {
+				//DrawRectangle((i * 50 + 2.5) + x, y + 2.5, cell_size - 5, cell_size - 5, DARKBLUE);
+				figura[2][el].Status = true;
+				figura[2][el].col = DARKBLUE;
+				if (el == 0) {
+					//DrawRectangle((i * 50 + 2.5) + x, y + 2.5 - 50, cell_size - 5, cell_size - 5, DARKBLUE);
+					figura[1][el].Status = true;
+					figura[1][el].col = DARKBLUE;
+				}
+				pole[y / cell_size +i][x / cell_size + el].Status = figura[i][el].Status;
+				pole[y / cell_size + i][x / cell_size + el ].col = figura[i][el].col;
 			}
 		}
-		pole[y / 50][x / 50].Status = true;
-		pole[y / 50][x / 50].col = DARKBLUE;
+		
 		blockX = 7;
 	}
 	void Lfigure(int y, int x) {
@@ -326,14 +326,15 @@ int main()
 				DrawRectangle(el * cell_size, i * cell_size, cell_size, cell_size, RAYWHITE);
 				DrawRectangle(el * cell_size + 2.5, i * cell_size + 2.5, cell_size - 5, cell_size - 5, pole[i][el].col);
 				//object.Ran_Fig(num_of_fig, d_y, x);
-				object.Lfigure(d_y, x);
+
+				object.Tfigure(d_y, x);
+
+
 			}
 		}
 
 
 		/*----------------------POLE----------------------*/
-
-
 
 
 
@@ -395,10 +396,11 @@ int main()
 						/*pole[(d_y / cell_size)][(x - 50) / cell_size].Status = false;
 						pole[(d_y / cell_size)][(x - 50) / cell_size].col = BLACK;*/			/*TEST NUMBERS*/
 					}
-<<<<<<< Updated upstream
-=======
+
 				}
->>>>>>> Stashed changes
+
+
+				}
 
 			}
 
@@ -406,5 +408,4 @@ int main()
 		}
 	}
 }
-
 
