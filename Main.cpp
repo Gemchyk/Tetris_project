@@ -8,33 +8,34 @@ int left_false = 0;
 Box pole[20][10];
 //Figure coming_figures[10];
 Box figura[4][4];
-int num_of_fig = ran_num();
 double start = GetTime();
+
 int d_y = 0;
 int x = 150;
 
 
-void dowwn(figure a)
-{
-	if (GetTime() - start >= 0.2)
-	{
-		start = GetTime();
-
-		if (d_y == cell_size * (19 - cube_block)) {
-			d_y = 0;
-			a.cube(d_y, x);
-			num_of_fig = rand() % 7 + 1;
-		}
-		if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true)
-		{
-			d_y = 0;
-			num_of_fig = rand() % 7 + 1;
-		}
-		else {
-			d_y += cell_size;
-		}
-	}
-}
+//void dowwn(figure a)
+//{
+//	if (GetTime() - start >= 0.2)
+//	{
+//		start = GetTime();
+//
+//		if (d_y == cell_size * (19 - cube_block)) {
+//			d_y = 0;
+//			a.cube(d_y, x);
+//			num_of_fig = rand() % 7 + 1;
+//		}
+//		if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true)
+//		{
+//			d_y = 0;
+//			num_of_fig = rand() % 7 + 1;
+//		}
+//		else {
+//			d_y += cell_size;
+//		}
+//	}
+//
+//}
 
 
 class figure
@@ -142,8 +143,8 @@ public:
 
 		for (int i = 0; i < 3; i++)
 		{
-			for (int el = 0; el < 3; el++)
-			{
+			/*for (int el = 0; el < 3; el++)
+			{*/
 				//DrawRectangle((el * cell_size + 2.5) + x, y + 2.5, cell_size - 5, cell_size - 5, PURPLE);
 				figura[2][i].Status = true;
 				figura[2][i].col = PURPLE;
@@ -153,20 +154,34 @@ public:
 					//DrawRectangle((el * cell_size + 2.5) + x, y + 2.5 - el * 50, cell_size - 5, cell_size - 5, PURPLE);
 					figura[1][i].Status = true;
 					figura[1][i].col = PURPLE;
-					
+					figura[1][i - 1].Status = false;
+					figura[1][i - 1].col = BLACK;
 				}
 
 
-				
-				pole[y / cell_size + el ][x / cell_size + i].Status = figura[el][i].Status;
-				pole[y / cell_size + el][x / cell_size + i].col = figura[el][i].col;
-				
+				for (int el = 1; el < 3; el++) {
+					pole[y / cell_size + el][x / cell_size + i].Status = figura[el][i].Status;
+					pole[y / cell_size + el][x / cell_size + i].col = figura[el][i].col;
+					
+				} 
+
 				if (y > 0)
 				{
-					pole[(y / cell_size) - 1][x / cell_size ].Status = false;
-					pole[(y / cell_size) - 1][x / cell_size].col = BLACK;
+					for (int j = 0; j < 3; j++) {
+						pole[(y / cell_size) - 1][x / cell_size + j].Status = false;
+						pole[(y / cell_size) - 1][x / cell_size + j].col = BLACK;
+						/*if (y >= 100) {
+							pole[(y / cell_size) - i][x / cell_size + j].Status = false;
+							pole[(y / cell_size) - i][x / cell_size + j].col = BLACK;
+						}*/
+
+						
+						
+					
+					}
+					
 				}
-			}
+			//}
     }
   
 		right_false = 200;
@@ -252,33 +267,24 @@ public:
 
 	void Ran_Fig(int x, int d_y, int d_x)
 	{
-		if (x == 1)
+		switch (x)
 		{
-			palka(d_y, d_x);
-		}
-		if (x == 2)
-		{
-			Tfigure(d_y, d_x);
-		}
-		if (x == 3)
-		{
-			cube(d_y, d_x);
-		}
-		if (x == 4)
-		{
-			Jfigure(d_y, d_x);
-		}
-		if (x == 5)
-		{
-			Lfigure(d_y, d_x);
-		}
-		if (x == 6)
-		{
-			Sfigure(d_y, d_x);
-		}
-		if (x == 7)
-		{
-			SRfigure(d_y, d_x);
+		case 1:
+			palka(d_y, d_x); break;
+		case 2:
+			Tfigure(d_y, d_x); break;
+		case 3:
+			cube(d_y, d_x); break;
+		case 4:
+			Jfigure(d_y, d_x); break;
+		case 5:
+			Lfigure(d_y, d_x); break;
+		case 6: 
+			Sfigure(d_y, d_x); break;
+		case 7:
+			SRfigure(d_y, d_x); break;
+		default:
+			break;
 		}
 	}
 
@@ -293,7 +299,7 @@ int main()
 
 	InitWindow(600, 1000, "Game");
 
-
+	int num_of_fig = ran_num();
 	figure object;
 	srand(time(0));
 
@@ -337,9 +343,31 @@ int main()
 		/*----------------------POLE----------------------*/
 
 
+		if (GetTime() - start >= 0.2)
+		{
+			start = GetTime();
+
+			if (d_y == cell_size * (19 - cube_block)) {
+				d_y = 0;
+				object.Tfigure(d_y, x);
+				num_of_fig = rand() % 7 + 1;
+			}
+			if (pole[(d_y / cell_size) + 1 + cube_block][x / cell_size].Status == true)
+			{
+				d_y = 0;
+				num_of_fig = rand() % 7 + 1;
+			}
+			else {
+				d_y += cell_size;
+			}
+		}
 
 		
+<<<<<<< Updated upstream
 		dowwn(object);
+=======
+		//dowwn(object);
+>>>>>>> Stashed changes
 
 
 
@@ -407,5 +435,5 @@ int main()
 			EndDrawing();
 		}
 	}
-}
+
 
