@@ -6,13 +6,12 @@ int blockX, cube_block = 0;
 int right_false = 0;
 int left_false = 0;
 Box pole[20][10];
-//Figure coming_figures[10];
 Box figura[4][4];
 int num_of_fig = ran_num();
 double start = GetTime();
 int d_y = 0;
 int x = 150;
-
+//Figure coming_figures[10];
 
 void dowwn(figure a)
 {
@@ -34,6 +33,21 @@ void dowwn(figure a)
 			d_y += cell_size;
 		}
 	}
+}
+
+std::vector<std::vector<Box>> rotate(std::vector<std::vector<Box>>* test)
+{
+	std::vector<std::vector<Box>> tmp(4, std::vector<Box> (4));
+
+	for (int i = 0; i < 4; i++)
+	{
+		for (int el = 0; el < 4; el++)
+		{
+			tmp[i][0] = (*test)[0][el];
+			tmp[0][el] = (*test)[i][0];
+		}
+	}
+	return tmp;
 }
 
 
@@ -339,7 +353,7 @@ int main()
 
 
 		
-		dowwn(object);
+		dowwn(&object);
 
 
 
@@ -396,6 +410,7 @@ int main()
 						/*pole[(d_y / cell_size)][(x - 50) / cell_size].Status = false;
 						pole[(d_y / cell_size)][(x - 50) / cell_size].col = BLACK;*/			/*TEST NUMBERS*/
 					}
+
 
 				}
 
