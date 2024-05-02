@@ -3,6 +3,7 @@
 #include <iostream>
 #include <ctime>
 #include <raylib.h>
+#include <vector>
 #define figuretype
 
 
