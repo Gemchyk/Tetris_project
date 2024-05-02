@@ -4,7 +4,7 @@
 #include <ctime>
 #include <raylib.h>
 #include <vector>
-#define figuretype
+#define cell_size 50
 
 
 struct Box
