@@ -7,6 +7,9 @@
 #define cell_size 50
 
 
+
+
+
 struct Box
 {
 	bool Status = false;
@@ -23,7 +26,19 @@ struct Figure
 	points pos;
 };
 
+std::vector<std::vector<Box>> figura(4, std::vector<Box>(4));
 
+void InitPalka()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		for (int el = 0; el < 4; el++)
+		{
+			figura[0][i].Status = true;
+			figura[0][i].col = BLUE;
+		}
+	}
+}
 
 /*---------------------RANDOM----------------------*/
 
