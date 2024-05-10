@@ -6,8 +6,6 @@ int ran_num();
 
 
 int blockX, cube_block = 0;
-int right_false = 0;
-int left_false = 0;
 Box pole[20][10];
 
 int num_of_fig = ran_num();
@@ -55,8 +53,7 @@ public:
 			}
 		}
 		blockX = 6;
-		right_false = 200;
-		left_false = 50;
+
 	}
 
 
@@ -82,53 +79,35 @@ public:
 				pole[y / cell_size + i][x / cell_size + el].col = figura[i][el].col;
 			}
 		}
-		right_false = 150;
-		left_false = 50;
+
 		blockX = 7;
 		cube_block = 1;
 	}
 	void Tfigure(int y, int x)
 	{
-		for (int i = 0; i < 4; i++)
-		{
-			for (int el = 0; el < 4; el++)
-			{
-				figura[el][i].Status = false;
-				figura[el][i].col = BLACK;
-			}
-		}
+		
 
 		for (int i = 0; i < 3; i++)
 		{
 			for (int el = 0; el < 3; el++)
 			{
-				//DrawRectangle((el * cell_size + 2.5) + x, y + 2.5, cell_size - 5, cell_size - 5, PURPLE);
-				figura[2][i].Status = true;
-				figura[2][i].col = PURPLE;
 
-				if (i == 1)
-				{
-					//DrawRectangle((el * cell_size + 2.5) + x, y + 2.5 - el * 50, cell_size - 5, cell_size - 5, PURPLE);
-					figura[1][i].Status = true;
-					figura[1][i].col = PURPLE;
-
-				}
-
-
-
-				pole[y / cell_size + el][x / cell_size + i].Status = figura[el][i].Status;
-				pole[y / cell_size + el][x / cell_size + i].col = figura[el][i].col;
+				pole[y + el + 1][x + i].Status = figura[el][i].Status;
+				pole[y + el + 1][x + i].col = figura[el][i].col;
 
 				if (y > 0)
 				{
-					pole[(y / cell_size) - 1][x / cell_size].Status = false;
-					pole[(y / cell_size) - 1][x / cell_size].col = BLACK;
+					pole[y - 1][x].Status = false;
+					pole[y - 1][x].col = BLACK;
+					
+					pole[y][x  + 1].Status = false;
+					pole[y][x + 1].col = BLACK;
 				}
 			}
-		}
+		}	
 
-		right_false = 200;
-		left_false = 100;
+		
+		
 		blockX = 7;
 	}
 
@@ -173,8 +152,6 @@ public:
 		pole[y / cell_size][x / cell_size].Status = true;
 		pole[y / cell_size][x / cell_size].col = ORANGE;
 
-		right_false = 100;
-		left_false = 50;
 
 		blockX = 7;
 	}
@@ -210,34 +187,31 @@ public:
 
 	void Ran_Fig(int x, int d_y, int d_x)
 	{
-		if (x == 1)
+		switch (x)
 		{
+		case 1:
 			palka(d_y, d_x);
-		}
-		if (x == 2)
-		{
+			break;
+		case 2:
 			Tfigure(d_y, d_x);
-		}
-		if (x == 3)
-		{
+			break;
+		case 3:
 			cube(d_y, d_x);
-		}
-		if (x == 4)
-		{
+			break;
+		case 4:
 			Jfigure(d_y, d_x);
-		}
-		if (x == 5)
-		{
+			break;
+		case 5:
 			Lfigure(d_y, d_x);
-		}
-		if (x == 6)
-		{
+			break;
+		case 6:
 			Sfigure(d_y, d_x);
-		}
-		if (x == 7)
-		{
+			break;
+		case 7:
 			SRfigure(d_y, d_x);
+			break;
 		}
+		
 	}
 
 };
@@ -266,7 +240,7 @@ int main()
 	}
 
 
-	InitPalka();
+	InitT();
 
 	while (!WindowShouldClose())
 	{
@@ -275,7 +249,7 @@ int main()
 		/*----------------------POLE----------------------*/
 		ClearBackground(BLACK);
 
-		object.palka(d_y, x);
+		object.Tfigure(d_y, x);
 
 		for (int i = 0; i < 20; i++)
 		{
