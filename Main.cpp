@@ -1,7 +1,15 @@
+
 #define FIELD_WIDTH 10
 #define FIELD_HEIGHT 20
 #define cell 50
 
+
+#include <iostream>
+#include <vector>
+#include <raylib.h>
+#include <ctime>
+#include <cstdlib>
+using namespace std;
 
 
 #include <iostream>
@@ -10,6 +18,8 @@
 #include <raylib.h>
 #include <ctime>
 using namespace std;
+=======
+
 
 random_device rd;
 mt19937 rng(rd());
@@ -31,13 +41,13 @@ struct figure_t {
 };
 
 
-
 enum collide_dir {
     ANY,
     RIGHT,
     LEFT,
     DOWN
 };
+
 
 vector<vector<bool>> field;
 
@@ -49,11 +59,13 @@ vector<pos_t> findRow(figure_t figure, int row) {
         if (i.Y == row)
             ret.push_back(i);
     }
+
     return ret;
 }
 
 vector<pos_t> findColumn(figure_t figure, int column) {
     vector<pos_t> ret;
+
 
     for (pos_t i : figure.blockpos)
     {
@@ -63,18 +75,21 @@ vector<pos_t> findColumn(figure_t figure, int column) {
     return ret;
 }
 
+
 void findRightPeaks(figure_t& figure) {
     int minY = 0;
     int maxY = 0;
     int minX = 0;
 
     for (pos_t i : figure.blockpos) {
+ 
         if (i.X < minX) 
             minX = i.X;
         if (i.Y > maxY) 
             maxY = i.Y;
         if (i.Y < minY) 
             minY = i.Y;
+
     }
 
     for (int i = minY; i <= maxY; i++) {
@@ -92,21 +107,25 @@ void findLeftPeaks(figure_t& figure) {
     int maxX = 0;
 
     for (pos_t i : figure.blockpos) {
+
         if (i.X > maxX) 
             maxX = i.X;
         if (i.Y > maxY)
             maxY = i.Y;
         if (i.Y < minY) 
             minY = i.Y;
+
     }
 
     for (int i = minY; i <= maxY; i++) {
         pos_t peak = { maxX, 0 };
 
+
         for (pos_t& i : findRow(figure, i))
         {
             if (i.X <= peak.X) peak = i;
         }
+
         figure.leftPeaks.push_back(peak);
     }
 }
@@ -118,12 +137,14 @@ void findDownPeaks(figure_t& figure) {
     int minY = 0;
 
     for (pos_t i : figure.blockpos) {
+
         if (i.X > maxX)
             maxX = i.X;
         if (i.X < minX) 
             minX = i.X;
         if (i.Y < minY) 
             minY = i.Y;
+
     }
 
     for (int i = minX; i <= maxX; i++) {
@@ -133,6 +154,7 @@ void findDownPeaks(figure_t& figure) {
 
         figure.downPeaks.push_back(peak);
     }
+
 }
 
 bool checkCollision(figure_t figure, collide_dir dir, bool check_my_pos = false) {
@@ -379,12 +401,14 @@ figure_t create_O(pos_t pos) {
 
 figure_t create_O(int X, int Y) { return create_O({ X, Y }); }
 
+
 figure_t create_S(pos_t pos) {
     figure_t figure;
     figure.absPos = pos;
     figure.rotatePoint = 2;
     figure.blockpos = { {0, 0}, {1, 0}, {-1, 1}, {0, 1} };
     col = RED;
+
 
     normalizeFigure(figure);
 
@@ -404,6 +428,7 @@ figure_t create_Z(pos_t pos) {
     figure.blockpos = { {0, 0}, {1, 0}, {1, 1}, {2, 1} };
     col = GREEN;
 
+
     normalizeFigure(figure);
 
     findRightPeaks(figure);
@@ -422,6 +447,8 @@ figure_t create_T(pos_t pos) {
     figure.blockpos = { {0, 0}, {1, 0}, {2, 0}, {1, 1} };
     col = PURPLE;
 
+
+
     normalizeFigure(figure);
 
     findRightPeaks(figure);
@@ -434,26 +461,45 @@ figure_t create_T(pos_t pos) {
 figure_t create_T(int X, int Y) { return create_T({ X, Y }); }
 
 figure_t randomFigure() {
-    int frand = frandom(rng);
 
-    if (frand == 0) return create_I(3, 0);
-    else if (frand == 1) return create_J(4, 0);
-    else if (frand == 2) return create_L(4, 0);
-    else if (frand == 3) return create_O(4, 0);
-    else if (frand == 4) return create_S(4, 0);
-    else if (frand == 5) return create_Z(4, 0);
+    int rand_numb = rand() % 7;
 
-    return create_T(4, 0);
+    switch (rand_numb) {
+        case 0:
+            return create_palka(3, 0);
+            break;
+        case 1:
+            return create_J(4, 0);
+            break;
+        case 2:
+            return create_L(4, 0);
+            break;
+        case 3:
+            return create_palka(4, 0);
+            break;
+        case 4:
+            return create_S(4, 0);
+            break;
+        case 5:
+            return create_Z(4, 0);
+            break;
+        default:
+            return create_T(4, 0);
+            break;
+    }
+   
+    
 }
 
 int main() {
-    InitWindow(500, 1000, "Tetris");
+    InitWindow(600, 1000, "Tetris");
     SetTargetFPS(30);
 
-    initField(FIELD_WIDTH, FIELD_HEIGHT);
+    initPole(POLE_WIDTH, POLE_HEIGHT);
 
     figure_t currentFigure = randomFigure();
-    insertToField(currentFigure);
+    insertToPole(currentFigure);
+
 
     double start = GetTime();
 
@@ -465,13 +511,17 @@ int main() {
             if (checkCollision(currentFigure, DOWN)) {
                 clearFullRows();
                 currentFigure = randomFigure();
-                insertToField(currentFigure);
+
+                insertToPole(currentFigure);
+
             }
 
             start = GetTime();
             moveFigureY(currentFigure);
         }
-        else if (IsKeyPressed(KEY_DOWN)) moveFigureY(currentFigure);
+
+        else if (IsKeyDown(KEY_DOWN)) moveFigureY(currentFigure);
+
 
 
         if (IsKeyPressed(KEY_RIGHT)) moveFigureX(currentFigure);
@@ -482,10 +532,12 @@ int main() {
 
             clearFullRows();
             currentFigure = randomFigure();
-            insertToField(currentFigure);
+
+            insertToPole(currentFigure);
         }
 
-        drawField();
+        drawPole();
+
 
         EndDrawing();
     }
