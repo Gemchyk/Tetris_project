@@ -1,6 +1,6 @@
 
-#define FIELD_WIDTH 10
-#define FIELD_HEIGHT 20
+#define POLE_WIDTH 10
+#define POLE_HEIGHT 20
 #define cell 50
 
 
@@ -9,22 +9,10 @@
 #include <raylib.h>
 #include <ctime>
 #include <cstdlib>
+#include <string>
 using namespace std;
-
-
-#include <iostream>
-#include <vector>
-#include <random>
-#include <raylib.h>
-#include <ctime>
-using namespace std;
-=======
-
-
-random_device rd;
-mt19937 rng(rd());
-std::uniform_int_distribution<std::mt19937::result_type> frandom(0, 6);
 Color col = BLACK;
+int score = 0;
 
 struct pos_t {
     int X = 0;
@@ -95,8 +83,11 @@ void findRightPeaks(figure_t& figure) {
     for (int i = minY; i <= maxY; i++) {
         pos_t peak = { minX, 0 };
 
-        for (pos_t& i : findRow(figure, i)) if (i.X >= peak.X) peak = i;
-
+        for (pos_t& i : findRow(figure, i))
+        {
+            if (i.X >= peak.X)
+                peak = i;
+        }
         figure.rightPeaks.push_back(peak);
     }
 }
@@ -162,12 +153,12 @@ bool checkCollision(figure_t figure, collide_dir dir, bool check_my_pos = false)
     if (dir == ANY && check_my_pos) {
         for (pos_t i : figure.downPeaks)
         {
-            if (figure.absPos.Y + i.Y >= FIELD_HEIGHT)
+            if (figure.absPos.Y + i.Y >= POLE_HEIGHT)
                 return true;
         }
         for (pos_t i : figure.rightPeaks)
         {
-            if (figure.absPos.X + i.X >= FIELD_WIDTH)
+            if (figure.absPos.X + i.X >= POLE_WIDTH)
                 return true;
         }
         for (pos_t i : figure.leftPeaks)
@@ -179,7 +170,7 @@ bool checkCollision(figure_t figure, collide_dir dir, bool check_my_pos = false)
 
     if (dir == DOWN || dir == ANY) {
         for (pos_t i : figure.downPeaks) {
-            if (figure.absPos.Y + i.Y + 1 >= FIELD_HEIGHT) return true;
+            if (figure.absPos.Y + i.Y + 1 >= POLE_HEIGHT) return true;
             else if (field[figure.absPos.X + i.X][figure.absPos.Y + i.Y + 1]) return true;
             else if (check_my_pos && field[figure.absPos.X + i.X][figure.absPos.Y + i.Y]) return true;
         }
@@ -187,7 +178,7 @@ bool checkCollision(figure_t figure, collide_dir dir, bool check_my_pos = false)
 
     else if (dir == RIGHT || dir == ANY) {
         for (pos_t i : figure.rightPeaks) {
-            if (figure.absPos.X + i.X + 1 >= FIELD_WIDTH) return true;
+            if (figure.absPos.X + i.X + 1 >= POLE_WIDTH) return true;
             else if (field[figure.absPos.X + i.X + 1][figure.absPos.Y + i.Y]) return true;
             else if (check_my_pos && field[figure.absPos.X + i.X][figure.absPos.Y + i.Y]) return true;
         }
@@ -204,7 +195,7 @@ bool checkCollision(figure_t figure, collide_dir dir, bool check_my_pos = false)
     return false;
 }
 
-void initField(int width, int height) {
+void initPole(int width, int height) {
     field.resize(width);
 
     for (auto& i : field) {
@@ -212,7 +203,7 @@ void initField(int width, int height) {
     }
 }
 
-void drawField() {
+void drawPole() {
     for (int i = 0; i < field.size(); i++) {
         vector<bool> column = field[i];
 
@@ -221,26 +212,35 @@ void drawField() {
             DrawRectangle(i * cell + 5, j * cell + 5, 45, 45, (column[j]) ? col : BLACK);
         }
     }
+    
+    DrawText("Score", 550, 100, 40, WHITE);
+    DrawText(TextFormat("   %0i", score), 550, 150, 40, WHITE);
 }
 
 bool checkFullRow(int row) {
-    for (int i = 0; i < FIELD_WIDTH; i++) if (!field[i][row]) return false;
+    for (int i = 0; i < POLE_WIDTH; i++)
+    {
+        if (!field[i][row]) return false;
+    }
+    score += 500;
 
     return true;
 }
 
 void clearFullRow(int row) {
-    for (int i = 0; i < FIELD_WIDTH; i++) field[i][row] = false;
+    for (int i = 0; i < POLE_WIDTH; i++) 
+        field[i][row] = false;
 }
 
 void moveRows(int start) {
     for (int i = start - 1; i >= 0; i--) {
-        for (int j = 0; j < FIELD_WIDTH; j++) field[j][i + 1] = field[j][i];
+        for (int j = 0; j < POLE_WIDTH; j++)
+            field[j][i + 1] = field[j][i];
     }
 }
 
 void clearFullRows() {
-    for (int i = 0; i < FIELD_HEIGHT; i++) {
+    for (int i = 0; i < POLE_HEIGHT; i++) {
         if (checkFullRow(i)) {
             clearFullRow(i);
             moveRows(i);
@@ -248,30 +248,35 @@ void clearFullRows() {
     }
 }
 
-void insertToField(figure_t figure) {
-    for (pos_t i : figure.blockpos) field[i.X + figure.absPos.X][i.Y + figure.absPos.Y] = true;
+void insertToPole(figure_t figure) {
+    for (pos_t i : figure.blockpos)
+        field[i.X + figure.absPos.X][i.Y + figure.absPos.Y] = true;
 }
 
-void removeFromField(figure_t figure) {
-    for (pos_t i : figure.blockpos) field[i.X + figure.absPos.X][i.Y + figure.absPos.Y] = false;
+void removeFromPole(figure_t figure) {
+    for (pos_t i : figure.blockpos)
+        field[i.X + figure.absPos.X][i.Y + figure.absPos.Y] = false;
+
 }
 
 void moveFigureX(figure_t& figure, bool invert = false) {
     if (!invert && checkCollision(figure, RIGHT)) return;
     else if (invert && checkCollision(figure, LEFT)) return;
 
-    removeFromField(figure);
-    if (!invert) figure.absPos.X++;
-    else figure.absPos.X--;
-    insertToField(figure);
+    removeFromPole(figure);
+    if (!invert)
+        figure.absPos.X++;
+    else
+        figure.absPos.X--;
+    insertToPole(figure);
 }
 
 void moveFigureY(figure_t& figure) {
     if (checkCollision(figure, DOWN)) return;
 
-    removeFromField(figure);
+    removeFromPole(figure);
     figure.absPos.Y++;
-    insertToField(figure);
+    insertToPole(figure);
 }
 
 void jumpToFloor(figure_t& figure) {
@@ -285,13 +290,17 @@ void normalizeFigure(figure_t& figure) {
     int minY = 0;
 
     for (pos_t i : figure.blockpos) {
-        if (i.X > minX) minX = i.X;
-        if (i.Y > minY) minY = i.Y;
+        if (i.X > minX) 
+            minX = i.X;
+        if (i.Y > minY) 
+            minY = i.Y;
     }
 
     for (pos_t i : figure.blockpos) {
-        if (i.X < minX) minX = i.X;
-        if (i.Y < minY) minY = i.Y;
+        if (i.X < minX) 
+            minX = i.X;
+        if (i.Y < minY) 
+            minY = i.Y;
     }
 
     for (pos_t& i : figure.blockpos) {
@@ -301,7 +310,7 @@ void normalizeFigure(figure_t& figure) {
 }
 
 void rotateFigure(figure_t& figure) {
-    removeFromField(figure);
+    removeFromPole(figure);
 
     figure_t newFigure;
     newFigure.absPos = figure.absPos;
@@ -326,10 +335,10 @@ void rotateFigure(figure_t& figure) {
 
     if (!checkCollision(newFigure, ANY, true)) figure = newFigure;;
 
-    insertToField(figure);
+    insertToPole(figure);
 }
 
-figure_t create_I(pos_t pos) {
+figure_t create_palka(pos_t pos) {
     figure_t figure;
     figure.absPos = pos;
     figure.rotatePoint = 1;
@@ -345,7 +354,7 @@ figure_t create_I(pos_t pos) {
     return figure;
 }
 
-figure_t create_I(int X, int Y) { return create_I({ X, Y }); }
+figure_t create_palka(int X, int Y) { return create_palka({ X, Y }); }
 
 figure_t create_J(pos_t pos) {
     figure_t figure;
@@ -383,7 +392,7 @@ figure_t create_L(pos_t pos) {
 
 figure_t create_L(int X, int Y) { return create_L({ X, Y }); }
 
-figure_t create_O(pos_t pos) {
+figure_t create_cube(pos_t pos) {
     figure_t figure;
     figure.absPos = pos;
     figure.rotatePoint = 0;
@@ -399,7 +408,7 @@ figure_t create_O(pos_t pos) {
     return figure;
 }
 
-figure_t create_O(int X, int Y) { return create_O({ X, Y }); }
+figure_t create_cube(int X, int Y) { return create_cube({ X, Y }); }
 
 
 figure_t create_S(pos_t pos) {
@@ -475,7 +484,7 @@ figure_t randomFigure() {
             return create_L(4, 0);
             break;
         case 3:
-            return create_palka(4, 0);
+            return create_cube(4, 0);
             break;
         case 4:
             return create_S(4, 0);
@@ -492,8 +501,8 @@ figure_t randomFigure() {
 }
 
 int main() {
-    InitWindow(600, 1000, "Tetris");
-    SetTargetFPS(30);
+    InitWindow(800, 1000, "Tetris");
+    SetTargetFPS(60);
 
     initPole(POLE_WIDTH, POLE_HEIGHT);
 
@@ -524,10 +533,14 @@ int main() {
 
 
 
-        if (IsKeyPressed(KEY_RIGHT)) moveFigureX(currentFigure);
-        if (IsKeyPressed(KEY_LEFT)) moveFigureX(currentFigure, true);
-        if (IsKeyPressed(KEY_UP)) rotateFigure(currentFigure);
-        if (IsKeyPressed(KEY_SPACE)) {
+        if (IsKeyPressed(KEY_RIGHT))
+            moveFigureX(currentFigure);
+        if (IsKeyPressed(KEY_LEFT)) 
+            moveFigureX(currentFigure, true);
+        if (IsKeyPressed(KEY_UP)) 
+            rotateFigure(currentFigure);
+        if (IsKeyPressed(KEY_SPACE)) 
+        {
             jumpToFloor(currentFigure);
 
             clearFullRows();
