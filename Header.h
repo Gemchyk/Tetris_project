@@ -7,9 +7,7 @@
 #define cell_size 50
 
 
-#ifdef _WIN32
-#pragma comment(lib,"winmm.lib")
-#endif
+
 
 int blockX = 7;
 int y_stop;
