@@ -12,6 +12,7 @@
 #include <string>
 using namespace std;
 Color col = BLACK;
+
 int score = 0;
 
 struct pos_t {
@@ -35,6 +36,8 @@ enum collide_dir {
     LEFT,
     DOWN
 };
+
+
 
 
 vector<vector<bool>> field;
@@ -114,12 +117,15 @@ void findLeftPeaks(figure_t& figure) {
 
         for (pos_t& i : findRow(figure, i))
         {
-            if (i.X <= peak.X) peak = i;
+            if (i.X <= peak.X)
+                peak = i;
         }
 
         figure.leftPeaks.push_back(peak);
     }
 }
+
+
 
 void findDownPeaks(figure_t& figure) {
     vector<pos_t> peaks;
@@ -141,8 +147,11 @@ void findDownPeaks(figure_t& figure) {
     for (int i = minX; i <= maxX; i++) {
         pos_t peak = { 0, minY };
 
-        for (pos_t& i : findColumn(figure, i)) if (i.Y >= peak.Y) peak = i;
-
+        for (pos_t& i : findColumn(figure, i))
+        {
+            if (i.Y >= peak.Y) 
+                peak = i;
+        }
         figure.downPeaks.push_back(peak);
     }
 
@@ -196,6 +205,7 @@ bool checkCollision(figure_t figure, collide_dir dir, bool check_my_pos = false)
 }
 
 void initPole(int width, int height) {
+   
     field.resize(width);
 
     for (auto& i : field) {
@@ -213,9 +223,12 @@ void drawPole() {
         }
     }
     
-    DrawText("Score", 550, 100, 40, WHITE);
+    DrawText("Score:", 550, 100, 40, WHITE);
     DrawText(TextFormat("   %0i", score), 550, 150, 40, WHITE);
 }
+
+
+
 
 bool checkFullRow(int row) {
     for (int i = 0; i < POLE_WIDTH; i++)
@@ -260,8 +273,10 @@ void removeFromPole(figure_t figure) {
 }
 
 void moveFigureX(figure_t& figure, bool invert = false) {
-    if (!invert && checkCollision(figure, RIGHT)) return;
-    else if (invert && checkCollision(figure, LEFT)) return;
+    if (!invert && checkCollision(figure, RIGHT))
+        return;
+    else if (invert && checkCollision(figure, LEFT)) 
+        return;
 
     removeFromPole(figure);
     if (!invert)
@@ -272,7 +287,8 @@ void moveFigureX(figure_t& figure, bool invert = false) {
 }
 
 void moveFigureY(figure_t& figure) {
-    if (checkCollision(figure, DOWN)) return;
+    if (checkCollision(figure, DOWN)) 
+        return;
 
     removeFromPole(figure);
     figure.absPos.Y++;
@@ -280,7 +296,8 @@ void moveFigureY(figure_t& figure) {
 }
 
 void jumpToFloor(figure_t& figure) {
-    while (!checkCollision(figure, DOWN)) {
+    while (!checkCollision(figure, DOWN))
+    {
         moveFigureY(figure);
     }
 }
@@ -292,6 +309,7 @@ void normalizeFigure(figure_t& figure) {
     for (pos_t i : figure.blockpos) {
         if (i.X > minX) 
             minX = i.X;
+
         if (i.Y > minY) 
             minY = i.Y;
     }
@@ -299,6 +317,7 @@ void normalizeFigure(figure_t& figure) {
     for (pos_t i : figure.blockpos) {
         if (i.X < minX) 
             minX = i.X;
+
         if (i.Y < minY) 
             minY = i.Y;
     }
@@ -333,7 +352,8 @@ void rotateFigure(figure_t& figure) {
     findLeftPeaks(newFigure);
     findDownPeaks(newFigure);
 
-    if (!checkCollision(newFigure, ANY, true)) figure = newFigure;;
+    if (!checkCollision(newFigure, ANY, true)) 
+        figure = newFigure;
 
     insertToPole(figure);
 }
@@ -343,7 +363,7 @@ figure_t create_palka(pos_t pos) {
     figure.absPos = pos;
     figure.rotatePoint = 1;
     figure.blockpos = { {0, 0}, {0, 1}, {0, 2}, {0, 3} };
-    col = BLUE;
+    
 
     normalizeFigure(figure);
 
@@ -351,17 +371,21 @@ figure_t create_palka(pos_t pos) {
     findLeftPeaks(figure);
     findDownPeaks(figure);
 
+    col = BLUE;
     return figure;
 }
 
-figure_t create_palka(int X, int Y) { return create_palka({ X, Y }); }
+figure_t create_palka(int X, int Y) 
+{
+    return create_palka({ X, Y }); 
+}
 
 figure_t create_J(pos_t pos) {
     figure_t figure;
     figure.absPos = pos;
     figure.rotatePoint = 1;
     figure.blockpos = { {0, 0}, {0, 1}, {0, 2}, {-1, 2} };
-    col = DARKBLUE;
+    ;
 
     normalizeFigure(figure);
 
@@ -369,17 +393,23 @@ figure_t create_J(pos_t pos) {
     findLeftPeaks(figure);
     findDownPeaks(figure);
 
+    col = ORANGE;
     return figure;
 }
 
-figure_t create_J(int X, int Y) { return create_J({ X, Y }); }
+
+
+figure_t create_J(int X, int Y)
+{ 
+    return create_J({ X, Y }); 
+}
 
 figure_t create_L(pos_t pos) {
     figure_t figure;
     figure.absPos = pos;
     figure.rotatePoint = 1;
     figure.blockpos = { {0, 0}, {0, 1}, {0, 2}, {1, 2} };
-    col = ORANGE;
+    
 
     normalizeFigure(figure);
 
@@ -387,17 +417,21 @@ figure_t create_L(pos_t pos) {
     findLeftPeaks(figure);
     findDownPeaks(figure);
 
+    col = DARKBLUE;
     return figure;
 }
 
-figure_t create_L(int X, int Y) { return create_L({ X, Y }); }
+figure_t create_L(int X, int Y)
+{ 
+    return create_L({ X, Y }); 
+}
 
 figure_t create_cube(pos_t pos) {
     figure_t figure;
     figure.absPos = pos;
     figure.rotatePoint = 0;
     figure.blockpos = { {0, 0}, {1, 0}, {0, 1}, {1, 1} };
-    col = YELLOW;
+    
 
     normalizeFigure(figure);
 
@@ -405,10 +439,15 @@ figure_t create_cube(pos_t pos) {
     findLeftPeaks(figure);
     findDownPeaks(figure);
 
+    col = YELLOW;
+
     return figure;
 }
 
-figure_t create_cube(int X, int Y) { return create_cube({ X, Y }); }
+figure_t create_cube(int X, int Y)
+{
+    return create_cube({ X, Y }); 
+}
 
 
 figure_t create_S(pos_t pos) {
@@ -416,7 +455,7 @@ figure_t create_S(pos_t pos) {
     figure.absPos = pos;
     figure.rotatePoint = 2;
     figure.blockpos = { {0, 0}, {1, 0}, {-1, 1}, {0, 1} };
-    col = RED;
+    
 
 
     normalizeFigure(figure);
@@ -425,17 +464,22 @@ figure_t create_S(pos_t pos) {
     findLeftPeaks(figure);
     findDownPeaks(figure);
 
+    col = RED;
+
     return figure;
 }
 
-figure_t create_S(int X, int Y) { return create_S({ X, Y }); }
+figure_t create_S(int X, int Y) 
+{ 
+    return create_S({ X, Y });
+}
 
 figure_t create_Z(pos_t pos) {
     figure_t figure;
     figure.absPos = pos;
     figure.rotatePoint = 2;
     figure.blockpos = { {0, 0}, {1, 0}, {1, 1}, {2, 1} };
-    col = GREEN;
+    
 
 
     normalizeFigure(figure);
@@ -444,17 +488,22 @@ figure_t create_Z(pos_t pos) {
     findLeftPeaks(figure);
     findDownPeaks(figure);
 
+    col = RED;
+
     return figure;
 }
 
-figure_t create_Z(int X, int Y) { return create_Z({ X, Y }); }
+figure_t create_Z(int X, int Y)
+{ 
+    return create_Z({ X, Y }); 
+}
 
 figure_t create_T(pos_t pos) {
     figure_t figure;
     figure.absPos = pos;
     figure.rotatePoint = 1;
     figure.blockpos = { {0, 0}, {1, 0}, {2, 0}, {1, 1} };
-    col = PURPLE;
+    
 
 
 
@@ -464,10 +513,14 @@ figure_t create_T(pos_t pos) {
     findLeftPeaks(figure);
     findDownPeaks(figure);
 
+    col = PURPLE;
     return figure;
 }
 
-figure_t create_T(int X, int Y) { return create_T({ X, Y }); }
+figure_t create_T(int X, int Y)
+{ 
+    return create_T({ X, Y });
+}
 
 figure_t randomFigure() {
 
@@ -512,6 +565,8 @@ int main() {
 
     double start = GetTime();
 
+    
+
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);
@@ -529,16 +584,20 @@ int main() {
             moveFigureY(currentFigure);
         }
 
-        else if (IsKeyDown(KEY_DOWN)) moveFigureY(currentFigure);
+        else if (IsKeyDown(KEY_DOWN)) 
+            moveFigureY(currentFigure);
 
 
 
         if (IsKeyPressed(KEY_RIGHT))
-            moveFigureX(currentFigure);
+            moveFigureX(currentFigure); 
+
         if (IsKeyPressed(KEY_LEFT)) 
             moveFigureX(currentFigure, true);
+
         if (IsKeyPressed(KEY_UP)) 
             rotateFigure(currentFigure);
+
         if (IsKeyPressed(KEY_SPACE)) 
         {
             jumpToFloor(currentFigure);
